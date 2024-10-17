@@ -1,0 +1,32 @@
+# Provider ID, it must be unique
+id: dummy
+
+name: Dummy
+description: Dummy Provider
+
+type: official # Allowed values: official, community
+
+visibility: public # Allowed values: public, private
+
+config:
+  logo:
+    src: ./assets/logos/dummy.png
+
+  # AI Connection Form (VM-X Console UI)
+  connection:
+    form:
+      # JSON Schema with AJV Error Messages
+      type: object
+      required: []
+      properties: {}
+
+  # Local path to the provider handler
+  handler:
+    src: './src/index.ts'
+    module: 'DummyLLMProvider'
+    tsConfigPath: './tsconfig.lib.json'
+
+  # List of supported models
+  models:
+    - label: Dummy
+      value: dummy

@@ -1,0 +1,15 @@
+{
+  "name": "@vm-x-ai/providers-dummy",
+  "version": "1.0.0",
+  "dependencies": {
+    "@nestjs/common": "^10.3.9",
+    "nestjs-otel": "^6.1.1",
+    "rxjs": "^7.8.1",
+    "@vm-x-ai/completion-provider": "0.3.0",
+    "esbuild-plugin-tsc": "^0.4.0",
+    "uuid": "^9.0.1"
+  },
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts"
+}
