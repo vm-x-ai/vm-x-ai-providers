@@ -1,0 +1,137 @@
+# Provider ID, it must be unique
+id: amazon-bedrock
+
+name: Amazon Bedrock
+description: Amazon Bedrock Provider
+
+type: official # Allowed values: official, community
+
+visibility: public # Allowed values: public, private
+
+config:
+  logo:
+    src: ./assets/logos/aws.png
+
+  # AI Connection Form (VM-X Console UI)
+  connection:
+    form:
+      errorMessage:
+        required:
+          iamRoleArn: IAM Role Arn is required
+          region: AWS Region is required
+      properties:
+        iamRoleArn:
+          description: e.g. "arn:aws:iam::123456789012:role/bedrock-role"
+          errorMessage: The IAM Role should follow the AWS ARN pattern e.g. "arn:aws:iam::123456789012:role/bedrock-role"
+          format: aws-arn
+          minLength: 1
+          title: IAM Role Arn
+          type: string
+        region:
+          format: aws-region
+          minLength: 1
+          title: AWS Region
+          type: string
+      required:
+        - region
+        - iamRoleArn
+      title: AWS Credentials
+      type: object
+
+    uiComponents:
+      - elements:
+          - content: 'Assume Role Policy Document:'
+            type: typography
+            variant: caption
+
+          - content: |-
+              {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "AWS": "arn:aws:iam::<%- (environment.physicalEnvironment || environment).providerConfig?.config.accountId %>:root"
+                    },
+                    "Action": "sts:AssumeRole",
+                    "Condition": {
+                      "StringEquals": {
+                        "sts:ExternalId": "<%- environment.workspaceId %>:<%- environment.environmentId %>"
+                      }
+                    }
+                  }
+                ]
+              }
+            height: 300px
+            language: json
+            readOnly: true
+            readOnlyMessage: Assume Role Policy Document
+            type: editor
+
+          - content: 'Policy Document:'
+            sx:
+              marginTop: '.5rem'
+            type: typography
+            variant: caption
+
+          - content: |-
+              {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Action": [
+                      "bedrock:InvokeModel",
+                      "bedrock:InvokeModelWithResponseStream"
+                    ],
+                    "Resource": [
+                      "*"
+                    ]
+                  }
+                ]
+              }
+            height: 300px
+            language: json
+            readOnly: true
+            readOnlyMessage: Policy Document
+            type: editor
+        title: Click to view the IAM Role details
+        type: accordion
+
+  # Local path to the provider handler
+  handler:
+    src: './src/index.ts'
+    module: 'DummyLLMProvider'
+    tsConfigPath: './tsconfig.lib.json'
+
+  # List of supported models
+  models:
+    - label: Llama3 - 8b Instruct v1
+      logo:
+        src: ./assets/logos/meta.png
+      value: meta.llama3-8b-instruct-v1:0
+
+    - label: Llama3 - 70b Instruct v1
+      logo:
+        src: ./assets/logos/meta.png
+      value: meta.llama3-70b-instruct-v1:0
+
+    - label: Mistral - 7b Instruct v0
+      logo:
+        src: ./assets/logos/mistral.png
+      value: mistral.mistral-7b-instruct-v0:2
+
+    - label: Mistral - 8x7b Instruct v0
+      logo:
+        src: ./assets/logos/mistral.png
+      value: mistral.mixtral-8x7b-instruct-v0:1
+
+    - label: Mistral - Large 2402 v1
+      logo:
+        src: ./assets/logos/mistral.png
+      value: mistral.mistral-large-2402-v1:0
+
+    - label: Mistral - Small 2402 v1
+      logo:
+        src: ./assets/logos/mistral.png
+      value: mistral.mistral-small-2402-v1:0
