@@ -1,23 +1,29 @@
-## 1.2.0 (2024-10-17)
+## 1.2.1 (2024-10-17)
 
+### 🩹 Fixes
+
+- bump provider library to 0.4.2 ([49c7275](https://github.com/vm-x-ai/vm-x-ai-providers/commit/49c7275))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
+## 1.2.0 (2024-10-17)
 
 ### 🚀 Features
 
 - add dummy provider ([538c59b](https://github.com/vm-x-ai/vm-x-ai-providers/commit/538c59b))
 
-
-### ❤️  Thank You
+### ❤️ Thank You
 
 - Lucas Vieira @lucasvieirasilva
 
 ## 1.1.0 (2024-10-17)
 
-
 ### 🚀 Features
 
 - add dummy provider ([538c59b](https://github.com/vm-x-ai/vm-x-ai-providers/commit/538c59b))
 
-
-### ❤️  Thank You
+### ❤️ Thank You
 
 - Lucas Vieira @lucasvieirasilva
