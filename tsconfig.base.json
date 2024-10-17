@@ -10,10 +10,7 @@
     "importHelpers": true,
     "target": "es2022",
     "module": "esnext",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -24,15 +21,8 @@
     "esModuleInterop": true,
     "strictPropertyInitialization": false,
     "baseUrl": ".",
-    "typeRoots": [
-      "node_modules/@types",
-      "./types",
-      "./node_modules"
-    ],
+    "typeRoots": ["node_modules/@types", "./types", "./node_modules"],
     "paths": {}
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }
