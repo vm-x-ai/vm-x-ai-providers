@@ -13,3 +13,15 @@ jobs:
     name: Release
     uses: vm-x-ai/github-public-actions/.github/workflows/workflow-automatic-release.yml@main
     secrets: inherit
+    with:
+      publish: false
+
+  dispatch:
+    needs: [release]
+    name: Dispatch release completed
+    if: ${{ success() }}
+    steps:
+      - name: Dispatch event
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          event-type: release-completed

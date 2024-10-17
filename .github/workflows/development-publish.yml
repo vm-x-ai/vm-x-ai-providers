@@ -1,0 +1,39 @@
+name: Publish Deployment
+
+on:
+  repository_dispatch:
+    types: [release-completed]
+  workflow_dispatch:
+    branches:
+      - main
+
+permissions:
+  actions: write
+  contents: read
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Publish Development
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: vm-x-ai/github-public-actions/.github/actions/setup-monorepo@main
+      - name: Configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOYMENT_ROLE }}
+          aws-region: ${{ vars.AWS_DEPLOYMENT_REGION }}
+          role-session-name: GitHub
+      - name: Publish
+        run: pnpm nx affected -t publish'
+        env:
+          VMX_PAT: ${{ secrets.VMX_PAT }}
+          VMX_API_BASE_URL: ${{ vars.VMX_API_BASE_URL }}

@@ -10,7 +10,7 @@ visibility: public # Allowed values: public, private
 
 config:
   logo:
-    src: ./assets/logos/dummy.png
+    src: ./assets/logos/vmx.png
 
   # AI Connection Form (VM-X Console UI)
   connection:
