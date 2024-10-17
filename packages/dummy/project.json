@@ -1,29 +1,15 @@
 {
-  "name": "providers-dummy",
+  "name": "dummy",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/dummy/src",
   "projectType": "library",
-  "tags": ["providers", "dummy"],
+  "tags": ["dummy"],
   "targets": {
     "build": {
-      "executor": "@nx/esbuild:esbuild",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
+      "executor": "nx:run-commands",
       "options": {
-        "outputPath": "packages/dummy/dist",
-        "bundle": true,
-        "main": "packages/dummy/src/index.ts",
-        "additionalEntryPoints": [],
-        "tsConfig": "packages/dummy/tsconfig.lib.json",
-        "external": [],
-        "thirdParty": true,
-        "esbuildConfig": "packages/dummy/esbuild.config.js",
-        "generatePackageJson": false
-      },
-      "configurations": {
-        "development": {},
-        "production": {},
-        "debug": {}
+        "command": "vm-x-completion-ai-provider publish --dry-run",
+        "cwd": "{projectRoot}"
       }
     },
     "lint": {
@@ -38,7 +24,7 @@
     "publish": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx --yes @vm-x-ai/completion-provider publish",
+        "command": "vm-x-completion-ai-provider publish",
         "cwd": "{projectRoot}"
       }
     }
