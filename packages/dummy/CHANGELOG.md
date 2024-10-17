@@ -1,3 +1,13 @@
+## 1.2.5 (2024-10-17)
+
+### 🩹 Fixes
+
+- bump provider library to 0.4.6 ([ea0636a](https://github.com/vm-x-ai/vm-x-ai-providers/commit/ea0636a))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 1.2.4 (2024-10-17)
 
 ### 🩹 Fixes
