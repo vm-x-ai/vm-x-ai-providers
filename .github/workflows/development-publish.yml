@@ -33,7 +33,7 @@ jobs:
           aws-region: ${{ vars.AWS_DEPLOYMENT_REGION }}
           role-session-name: GitHub
       - name: Publish
-        run: pnpm nx affected -t publish'
+        run: pnpm nx affected -t publish
         env:
           VMX_PAT: ${{ secrets.VMX_PAT }}
           VMX_API_BASE_URL: ${{ vars.VMX_API_BASE_URL }}
