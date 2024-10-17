@@ -12,7 +12,7 @@
     "@aws-sdk/credential-providers": "3.592.0",
     "@grpc/grpc-js": "^1.10.8",
     "@nestjs/common": "^10.3.9",
-    "@vm-x-ai/completion-provider": "0.4.4",
+    "@vm-x-ai/completion-provider": "0.4.5",
     "nestjs-otel": "6.1.1",
     "openai": "^4.48.3",
     "openapi-types": "^12.1.3",
