@@ -19,3 +19,14 @@ jobs:
     with:
       specifier: ${{ inputs.specifier }}
       publish: false
+
+  dispatch:
+    needs: [release]
+    name: Dispatch release completed
+    if: ${{ success() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch event
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          event-type: release-completed
