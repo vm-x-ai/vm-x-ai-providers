@@ -1,11 +1,23 @@
-## 1.1.0 (2024-10-17)
-
+## 1.2.0 (2024-10-17)
 
 ### 🚀 Features
 
 - add amazon bedrock provider ([9a373c2](https://github.com/vm-x-ai/vm-x-ai-providers/commit/9a373c2))
 
+### 🩹 Fixes
 
-### ❤️  Thank You
+- remove llama3 and mistral providers from constructor ([f6e73d3](https://github.com/vm-x-ai/vm-x-ai-providers/commit/f6e73d3))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
+## 1.1.0 (2024-10-17)
+
+### 🚀 Features
+
+- add amazon bedrock provider ([9a373c2](https://github.com/vm-x-ai/vm-x-ai-providers/commit/9a373c2))
+
+### ❤️ Thank You
 
 - Lucas Vieira @lucasvieirasilva
