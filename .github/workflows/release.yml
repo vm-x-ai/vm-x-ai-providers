@@ -17,6 +17,4 @@ jobs:
     uses: vm-x-ai/github-public-actions/.github/workflows/workflow-release.yml@main
     secrets: inherit
     with:
-      use-python: true
       specifier: ${{ inputs.specifier }}
-      publish: false

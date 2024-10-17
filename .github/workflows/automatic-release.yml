@@ -13,5 +13,3 @@ jobs:
     name: Release
     uses: vm-x-ai/github-public-actions/.github/workflows/workflow-automatic-release.yml@main
     secrets: inherit
-    with:
-      publish: false
