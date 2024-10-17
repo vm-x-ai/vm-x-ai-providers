@@ -1,0 +1,51 @@
+# Provider ID, it must be unique
+id: openai
+
+name: OpenAI
+description: OpenAI Provider
+
+type: official # Allowed values: official, community
+
+visibility: public # Allowed values: public, private
+
+config:
+  logo:
+    src: ./assets/logos/openai.png
+
+  # AI Connection Form (VM-X Console UI)
+  connection:
+    form:
+      # JSON Schema with AJV Error Messages
+      type: object
+      title: OpenAI Properties
+      required:
+        - apiKey
+      properties:
+        apiKey:
+          type: string
+          format: secret
+          title: OpenAI API Key
+          description: e.g. sk-1234567890abcdef1234567890abcdef
+      errorMessage:
+        required:
+          apiKey: API Key is required
+
+  # Local path to the provider handler
+  handler:
+    src: './src/index.ts'
+    module: 'OpenAILLMProvider'
+    tsConfigPath: './tsconfig.lib.json'
+
+  # List of supported models
+  models:
+    - label: GPT 4o
+      value: gpt-4o
+
+    - label: GPT-4 Turbo
+      value: gpt-4-turbo
+
+    - label: GPT-4
+      value: gpt-4
+
+    - label: GPT-3.5 Turbo
+      value: gpt-3.5-turbo

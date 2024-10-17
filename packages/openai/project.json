@@ -1,0 +1,46 @@
+{
+  "name": "providers-openai",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/openai/src",
+  "projectType": "library",
+  "tags": ["providers", "openai"],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "packages/openai/dist",
+        "bundle": true,
+        "main": "packages/openai/src/index.ts",
+        "additionalEntryPoints": [],
+        "tsConfig": "packages/openai/tsconfig.lib.json",
+        "external": [],
+        "thirdParty": true,
+        "esbuildConfig": "packages/openai/esbuild.config.js",
+        "generatePackageJson": false
+      },
+      "configurations": {
+        "development": {},
+        "production": {},
+        "debug": {}
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {}
+    },
+    "nx-release-publish": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vm-x-completion-ai-provider publish",
+        "cwd": "{projectRoot}"
+      }
+    }
+  }
+}

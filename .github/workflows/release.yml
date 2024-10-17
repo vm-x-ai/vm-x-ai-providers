@@ -1,0 +1,22 @@
+name: OnDemand Release
+
+on:
+  workflow_dispatch:
+    branches:
+      - main
+    inputs:
+      specifier:
+        description: 'The specifier for the workflow to call (e.g. major, minor, patch, etc.)'
+        required: true
+        default: 'patch'
+        type: string
+
+jobs:
+  release:
+    name: Release
+    uses: vm-x-ai/github-public-actions/.github/workflows/workflow-release.yml@main
+    secrets: inherit
+    with:
+      use-python: true
+      specifier: ${{ inputs.specifier }}
+      publish: false

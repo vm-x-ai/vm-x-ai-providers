@@ -1,0 +1,17 @@
+name: Automatic Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Release
+    uses: vm-x-ai/github-public-actions/.github/workflows/workflow-automatic-release.yml@main
+    secrets: inherit
+    with:
+      publish: false

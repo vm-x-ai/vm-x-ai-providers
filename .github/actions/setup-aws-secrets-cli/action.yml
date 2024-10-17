@@ -1,0 +1,13 @@
+name: Set Up AWS Secrets CLI
+description: Set up AWS Secrets CLI (ref https://pypi.org/project/aws-ssm-secrets-cli/)
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+    - name: Install AWS Secrets CLI
+      shell: bash
+      run: pip install aws-ssm-secrets-cli
