@@ -18,8 +18,8 @@ dependencies:
     specifier: ^10.3.9
     version: 10.3.9(reflect-metadata@0.2.2)(rxjs@7.8.1)
   '@vm-x-ai/completion-provider':
-    specifier: 0.3.0
-    version: 0.3.0(@nestjs/core@10.3.9)(reflect-metadata@0.2.2)
+    specifier: 0.4.1
+    version: 0.4.1(@nestjs/core@10.3.9)(reflect-metadata@0.2.2)
   nestjs-otel:
     specifier: 6.1.1
     version: 6.1.1(@nestjs/common@10.3.9)(@nestjs/core@10.3.9)
@@ -6058,8 +6058,8 @@ packages:
       protobufjs: 7.3.0
     dev: false
 
-  /@vm-x-ai/completion-provider@0.3.0(@nestjs/core@10.3.9)(reflect-metadata@0.2.2):
-    resolution: {integrity: sha512-kb0wIzKpXHOO2Fz2+ZLoHFeratfckC7rK8PFQEK4Gd+EcmGK2H6KVoVytXmu8O5H+iu3ySQ7i5XLYQKbcCg9lg==}
+  /@vm-x-ai/completion-provider@0.4.1(@nestjs/core@10.3.9)(reflect-metadata@0.2.2):
+    resolution: {integrity: sha512-agupaynRLcK2uAjuRyZNArH5+I4LtwGlcYvJ8rIgGh7OVAKylmIf2mzOlLPyukA8RpSfuXEaM5ZbfgZsi0Yjiw==}
     hasBin: true
     dependencies:
       '@grpc/grpc-js': 1.10.8
