@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import {
   CompletionMetadata,
   CompletionRequest,
@@ -13,13 +13,14 @@ import { AmazonBedrockAIConnectionConfig } from './base.provider';
 import { AmazonBedrockLlama3Provider } from './llama3.provider';
 import { AmazonBedrockMistralProvider } from './mistral.provider';
 
-@Injectable()
-export class AmazonBedrockProxyProvider implements ICompletionProvider {
-  constructor(
-    private logger: Logger,
-    private llama3: AmazonBedrockLlama3Provider,
-    private mistral: AmazonBedrockMistralProvider,
-  ) {}
+export class AmazonBedrockProvider implements ICompletionProvider {
+  private readonly llama3: AmazonBedrockLlama3Provider;
+  private readonly mistral: AmazonBedrockMistralProvider;
+
+  constructor(private logger: Logger) {
+    this.llama3 = new AmazonBedrockLlama3Provider(logger);
+    this.mistral = new AmazonBedrockMistralProvider(logger);
+  }
 
   getRequestTokens(request: CompletionRequest, modelConfig: ResourceModelConfig): Promise<number> {
     if (modelConfig.model.startsWith('meta')) {

@@ -19,6 +19,7 @@ config:
         required:
           iamRoleArn: IAM Role Arn is required
           region: AWS Region is required
+
       properties:
         iamRoleArn:
           description: e.g. "arn:aws:iam::123456789012:role/bedrock-role"
@@ -27,11 +28,13 @@ config:
           minLength: 1
           title: IAM Role Arn
           type: string
+
         region:
           format: aws-region
           minLength: 1
           title: AWS Region
           type: string
+
       required:
         - region
         - iamRoleArn
@@ -39,12 +42,15 @@ config:
       type: object
 
     uiComponents:
-      - elements:
-          - content: 'Assume Role Policy Document:'
-            type: typography
+      - type: accordion
+        title: Click to view the IAM Role details
+        elements:
+          - type: typography
+            content: 'Assume Role Policy Document:'
             variant: caption
 
-          - content: |-
+          - type: editor
+            content: |-
               {
                 "Version": "2012-10-17",
                 "Statement": [
@@ -66,15 +72,15 @@ config:
             language: json
             readOnly: true
             readOnlyMessage: Assume Role Policy Document
-            type: editor
 
-          - content: 'Policy Document:'
+          - type: typography
+            content: 'Policy Document:'
             sx:
               marginTop: '.5rem'
-            type: typography
             variant: caption
 
-          - content: |-
+          - type: editor
+            content: |-
               {
                 "Version": "2012-10-17",
                 "Statement": [
@@ -94,14 +100,11 @@ config:
             language: json
             readOnly: true
             readOnlyMessage: Policy Document
-            type: editor
-        title: Click to view the IAM Role details
-        type: accordion
 
   # Local path to the provider handler
   handler:
     src: './src/index.ts'
-    module: 'DummyLLMProvider'
+    module: 'AmazonBedrockProvider'
     tsConfigPath: './tsconfig.lib.json'
 
   # List of supported models

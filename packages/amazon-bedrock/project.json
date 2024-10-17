@@ -1,29 +1,15 @@
 {
-  "name": "providers-amazon-bedrock",
+  "name": "amazon-bedrock",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/amazon-bedrock/src",
   "projectType": "library",
-  "tags": ["providers", "amazon-bedrock"],
+  "tags": ["amazon-bedrock"],
   "targets": {
     "build": {
-      "executor": "@nx/esbuild:esbuild",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
+      "executor": "nx:run-commands",
       "options": {
-        "outputPath": "packages/amazon-bedrock/dist",
-        "bundle": true,
-        "main": "packages/amazon-bedrock/src/index.ts",
-        "additionalEntryPoints": [],
-        "tsConfig": "packages/amazon-bedrock/tsconfig.lib.json",
-        "external": [],
-        "thirdParty": true,
-        "esbuildConfig": "packages/amazon-bedrock/esbuild.config.js",
-        "generatePackageJson": false
-      },
-      "configurations": {
-        "development": {},
-        "production": {},
-        "debug": {}
+        "command": "vm-x-completion-ai-provider publish --dry-run",
+        "cwd": "{projectRoot}"
       }
     },
     "lint": {
@@ -38,7 +24,7 @@
     "publish": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx --yes @vm-x-ai/completion-provider publish",
+        "command": "vm-x-completion-ai-provider publish",
         "cwd": "{projectRoot}"
       }
     }
