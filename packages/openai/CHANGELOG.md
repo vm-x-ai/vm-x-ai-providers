@@ -1,3 +1,15 @@
+## 1.1.0 (2024-10-22)
+
+
+### 🚀 Features
+
+- add watch publish commands ([a4abb31](https://github.com/vm-x-ai/vm-x-ai-providers/commit/a4abb31))
+
+
+### ❤️  Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 1.0.7 (2024-10-17)
 
 This was a version bump only for openai to align it with other projects, there were no code changes.
