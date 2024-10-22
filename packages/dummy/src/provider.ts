@@ -40,6 +40,7 @@ export class DummyLLMProvider extends BaseCompletionProvider<object> implements 
       "Hi, I'm a dummy model, which always replies the same content. Please go to https://console.vm-x.ai and add a model of your choice.";
 
     const usageClient = new TokenCounter({
+      model: 'cl100k_base',
       messages: [
         ...this.parseRequestMessages(request),
         {
@@ -55,8 +56,9 @@ export class DummyLLMProvider extends BaseCompletionProvider<object> implements 
       prompt: usageClient.promptUsedTokens,
     };
 
-    if (request.tools) {
+    if (request.tools?.length) {
       const functionTokens = new TokenCounter({
+        model: 'cl100k_base',
         messages: request.tools.map((fn) => ({
           role: 'assistant',
           content: JSON.stringify(fn),
@@ -68,16 +70,18 @@ export class DummyLLMProvider extends BaseCompletionProvider<object> implements 
     }
 
     if (request.stream) {
-      observable.next({
-        id: messageId,
-        role: 'assistant',
-        message: messageContent,
-        toolCalls: [],
-        metadata: {
-          ...this.getMetadata(model, metadata),
-          done: true,
-        },
-        finishReason: undefined,
+      messageContent.split(' ').forEach((word, index) => {
+        observable.next({
+          id: messageId,
+          role: 'assistant',
+          message: (index !== 0 ? ' ' : '') + word,
+          toolCalls: [],
+          metadata: {
+            ...this.getMetadata(model, metadata),
+            done: false,
+          },
+          finishReason: undefined,
+        });
       });
     }
 
@@ -99,7 +103,7 @@ export class DummyLLMProvider extends BaseCompletionProvider<object> implements 
 
   public async getRequestTokens(request: CompletionRequest): Promise<number> {
     const usageClient = new TokenCounter({
-      model: 'gpt-4', // Dummy provider does have a model, so, we can use any model here
+      model: 'cl100k_base',
       messages: this.parseRequestMessages(request),
     });
 

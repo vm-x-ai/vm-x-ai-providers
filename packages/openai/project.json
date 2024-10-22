@@ -27,6 +27,13 @@
         "command": "vm-x-completion-ai-provider publish",
         "cwd": "{projectRoot}"
       }
+    },
+    "watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vm-x-completion-ai-provider publish --watch",
+        "cwd": "{projectRoot}"
+      }
     }
   }
 }
