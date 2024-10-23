@@ -32,6 +32,11 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
+    },
+    "@nx/esbuild:esbuild": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "namedInputs": {
@@ -55,6 +60,12 @@
         "awsRegion": "us-east-1",
         "awsBucket": "vm-x-ai-nx-remote-cache-shared"
       }
+    }
+  },
+  "generators": {
+    "@vm-x-ai/completion-provider-nx": {
+      "providerType": "official",
+      "providerVisibility": "public"
     }
   },
   "release": {
@@ -83,5 +94,6 @@
     "projectsRelationship": "independent",
     "releaseTagPattern": "{projectName}-v{version}",
     "projects": ["packages/**/*"]
-  }
+  },
+  "useLegacyCache": true
 }
