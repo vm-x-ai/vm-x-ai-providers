@@ -1,0 +1,15 @@
+{
+  "name": "@vm-x-ai/groq",
+  "version": "0.0.1",
+  "dependencies": {
+    "esbuild-plugin-tsc": "^0.4.0",
+    "@nestjs/common": "^10.3.9",
+    "@vm-x-ai/completion-provider": "0.6.5",
+    "nestjs-otel": "6.1.1",
+    "rxjs": "^7.8.1",
+    "uuid": "^9.0.1"
+  },
+  "type": "commonjs",
+  "main": "./index.cjs",
+  "private": true
+}

@@ -1,0 +1,42 @@
+# Provider ID, it must be unique
+id: groq
+
+name: Groq
+description: ADD DESCRIPTION HERE
+
+type: community # Allowed values: official, community
+
+visibility: private # Allowed values: public, private
+
+config:
+  logo:
+    src: ./assets/logos/groq-400x400.png
+
+  # AI Connection Form (VM-X Console UI)
+  connection:
+    form:
+      # JSON Schema with AJV Error Messages
+      type: object
+      title: Credentials
+      required:
+        - apiKey
+      properties:
+        apiKey:
+          type: string
+          format: secret
+          title: Groq API Key
+          description: e.g. gsk_abcdefghijklmnopqrstuvwxyz
+      errorMessage:
+        required:
+          apiKey: API Key is required
+
+  # Local path to the provider handler
+  handler:
+    src: './src/index.ts'
+    module: 'DummyLLMProvider'
+    tsConfigPath: './tsconfig.lib.json'
+
+  # List of supported models
+  models:
+    - label: Dummy
+      value: dummy
