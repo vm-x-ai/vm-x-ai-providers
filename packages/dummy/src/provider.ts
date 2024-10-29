@@ -23,6 +23,7 @@ export class DummyLLMProvider extends BaseCompletionProvider<object> implements 
     return request.config?.model ?? 'unknown';
   }
 
+  @Span('Dummy.getMaxReplyTokens')
   getMaxReplyTokens(request: CompletionRequest): number {
     return request.config?.maxTokens || 0;
   }
@@ -101,6 +102,7 @@ export class DummyLLMProvider extends BaseCompletionProvider<object> implements 
     };
   }
 
+  @Span('Dummy.getRequestTokens')
   public async getRequestTokens(request: CompletionRequest): Promise<number> {
     const usageClient = new TokenCounter({
       model: 'cl100k_base',

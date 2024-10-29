@@ -38,6 +38,7 @@ export class OpenAILLMProvider extends BaseCompletionProvider<OpenAI> implements
     super();
   }
 
+  @Span('OpenAI.getMaxReplyTokens')
   getMaxReplyTokens(request: CompletionRequest): number {
     return request.config?.max_tokens ?? 0;
   }
@@ -55,6 +56,7 @@ export class OpenAILLMProvider extends BaseCompletionProvider<OpenAI> implements
     return await callCompletion(request, connection, model, metadata, observable);
   }
 
+  @Span('OpenAI.getRequestTokens')
   public async getRequestTokens(request: CompletionRequest, modelConfig: ResourceModelConfig): Promise<number> {
     const usageClient = new TokenCounter({
       model: modelConfig.model,

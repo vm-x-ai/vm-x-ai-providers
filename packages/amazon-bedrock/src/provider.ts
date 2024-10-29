@@ -22,6 +22,7 @@ export class AmazonBedrockProvider implements ICompletionProvider {
     this.mistral = new AmazonBedrockMistralProvider(logger);
   }
 
+  @Span('AmazonBedrockProvider.getRequestTokens')
   getRequestTokens(request: CompletionRequest, modelConfig: ResourceModelConfig): Promise<number> {
     if (modelConfig.model.startsWith('meta')) {
       return this.llama3.getRequestTokens(request);
@@ -30,11 +31,12 @@ export class AmazonBedrockProvider implements ICompletionProvider {
     return this.mistral.getRequestTokens(request);
   }
 
+  @Span('AmazonBedrockProvider.getMaxReplyTokens')
   getMaxReplyTokens(request: CompletionRequest): number {
     return request.config?.maxTokens || 0;
   }
 
-  @Span('AmazonBedrockProxyProvider.completion')
+  @Span('AmazonBedrockProvider.completion')
   public async completion(
     request: CompletionRequest,
     connection: AIConnection<AmazonBedrockAIConnectionConfig>,
