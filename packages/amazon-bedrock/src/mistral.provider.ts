@@ -11,6 +11,7 @@ import {
   ICompletionProvider,
   RequestMessage,
   TokenCounter,
+  AIProviderConfig,
 } from '@vm-x-ai/completion-provider';
 import { Span } from 'nestjs-otel';
 import { Subject } from 'rxjs';
@@ -49,8 +50,8 @@ export class AmazonBedrockMistralProvider
   extends AmazonBedrockProvider<MistralInvokeResponse | MistralLargeInvokeResponse>
   implements ICompletionProvider
 {
-  constructor(logger: Logger) {
-    super(logger);
+  constructor(logger: Logger, provider: AIProviderConfig) {
+    super(logger, provider);
   }
 
   getMaxReplyTokens(request: CompletionRequest): number {

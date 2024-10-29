@@ -7,6 +7,7 @@ import type {
   ResourceModelConfig,
   AIConnection,
   TokenMessage,
+  AIProviderConfig,
 } from '@vm-x-ai/completion-provider';
 import { BaseCompletionProvider } from '@vm-x-ai/completion-provider';
 import { TokenCounter } from '@vm-x-ai/completion-provider';
@@ -15,8 +16,8 @@ import type { Subject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
 export class DummyLLMProvider extends BaseCompletionProvider<object> implements ICompletionProvider {
-  constructor(private readonly logger: Logger) {
-    super();
+  constructor(logger: Logger, provider: AIProviderConfig) {
+    super(logger, provider);
   }
 
   getModel(request: CompletionRequest): string {
@@ -41,7 +42,7 @@ export class DummyLLMProvider extends BaseCompletionProvider<object> implements 
       "Hi, I'm a dummy model, which always replies the same content. Please go to https://console.vm-x.ai and add a model of your choice.";
 
     const usageClient = new TokenCounter({
-      model: 'cl100k_base',
+      model: model.model,
       messages: [
         ...this.parseRequestMessages(request),
         {
@@ -59,7 +60,7 @@ export class DummyLLMProvider extends BaseCompletionProvider<object> implements 
 
     if (request.tools?.length) {
       const functionTokens = new TokenCounter({
-        model: 'cl100k_base',
+        model: model.model,
         messages: request.tools.map((fn) => ({
           role: 'assistant',
           content: JSON.stringify(fn),
@@ -103,9 +104,9 @@ export class DummyLLMProvider extends BaseCompletionProvider<object> implements 
   }
 
   @Span('Dummy.getRequestTokens')
-  public async getRequestTokens(request: CompletionRequest): Promise<number> {
+  public async getRequestTokens(request: CompletionRequest, modelConfig: ResourceModelConfig): Promise<number> {
     const usageClient = new TokenCounter({
-      model: 'cl100k_base',
+      model: modelConfig.model,
       messages: this.parseRequestMessages(request),
     });
 

@@ -9,6 +9,7 @@ import {
   CompletionUsage,
   ICompletionProvider,
   RequestMessage,
+  AIProviderConfig,
 } from '@vm-x-ai/completion-provider';
 import { Span } from 'nestjs-otel';
 import { Subject } from 'rxjs';
@@ -25,8 +26,8 @@ export class AmazonBedrockLlama3Provider
   extends AmazonBedrockProvider<Llama3InvokeResponse>
   implements ICompletionProvider
 {
-  constructor(logger: Logger) {
-    super(logger);
+  constructor(logger: Logger, provider: AIProviderConfig) {
+    super(logger, provider);
   }
 
   getMaxReplyTokens(request: CompletionRequest): number {

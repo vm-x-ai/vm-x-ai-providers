@@ -6,6 +6,7 @@ import {
   ResourceModelConfig,
   AIConnection,
   ICompletionProvider,
+  AIProviderConfig,
 } from '@vm-x-ai/completion-provider';
 import { Span } from 'nestjs-otel';
 import { Subject } from 'rxjs';
@@ -17,9 +18,9 @@ export class AmazonBedrockProvider implements ICompletionProvider {
   private readonly llama3: AmazonBedrockLlama3Provider;
   private readonly mistral: AmazonBedrockMistralProvider;
 
-  constructor(private logger: Logger) {
-    this.llama3 = new AmazonBedrockLlama3Provider(logger);
-    this.mistral = new AmazonBedrockMistralProvider(logger);
+  constructor(logger: Logger, provider: AIProviderConfig) {
+    this.llama3 = new AmazonBedrockLlama3Provider(logger, provider);
+    this.mistral = new AmazonBedrockMistralProvider(logger, provider);
   }
 
   @Span('AmazonBedrockProvider.getRequestTokens')
