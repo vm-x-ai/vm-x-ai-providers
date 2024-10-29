@@ -1,3 +1,13 @@
+## 1.4.0 (2024-10-29)
+
+### 🚀 Features
+
+- add otel spans to all public methods ([a76dcea](https://github.com/vm-x-ai/vm-x-ai-providers/commit/a76dcea))
+
+### ❤️  Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 1.3.0 (2024-10-22)
 
 
