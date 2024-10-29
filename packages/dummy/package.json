@@ -1,6 +1,6 @@
 {
   "name": "@vm-x-ai/providers-dummy",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "dependencies": {
     "@nestjs/common": "^10.3.9",
     "nestjs-otel": "^6.1.1",
