@@ -7,9 +7,9 @@ import type {
   ResourceModelConfig,
   AIConnection,
   TokenMessage,
+  AIProviderConfig,
 } from '@vm-x-ai/completion-provider';
-import { BaseCompletionProvider } from '@vm-x-ai/completion-provider';
-import { TokenCounter } from '@vm-x-ai/completion-provider';
+import { BaseCompletionProvider, TokenCounter } from '@vm-x-ai/completion-provider';
 import Groq from 'groq-sdk';
 import type {
   ChatCompletion,
@@ -17,7 +17,11 @@ import type {
   ChatCompletionCreateParamsNonStreaming,
   ChatCompletionCreateParamsStreaming,
   CompletionCreateParams,
+  ChatCompletionUserMessageParam,
+  ChatCompletionAssistantMessageParam,
+  ChatCompletionSystemMessageParam,
 } from 'groq-sdk/resources/chat/completions';
+
 import { Span } from 'nestjs-otel';
 import type { Subject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
@@ -31,12 +35,14 @@ export type GroqConnectionConfig = {
 };
 
 export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICompletionProvider {
-  constructor(private readonly logger: Logger) {
-    super();
+  constructor(logger: Logger, provider: AIProviderConfig) {
+    super(logger, provider);
   }
 
   getMaxReplyTokens(request: CompletionRequest): number {
-    return request.config?.max_tokens || 0;
+    const value = request.config?.max_tokens || 100; // REPLACE THIS!!
+    this.logger.log('max_tokens:', { value });
+    return value;
   }
 
   @Span('Groq.completion')
@@ -90,11 +96,11 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
       stream: false, //request.stream,
       tool_choice: request.toolChoice?.auto ? 'auto' : undefined,
       tools: (request.tools || []).length > 0 ? (request.tools as any[]) : undefined,
-      messages: [],
+      messages: this.parseRequestMessagesToGroqFormat(request),
     };
 
     this.logger.log('Calling Groq API', {
-      request: groqRequest,
+      request: groqRequest, // WHY DOES THIS NOT GET LOGGED?
     });
 
     //let message: any;
@@ -119,6 +125,7 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
     // } else {
     const message = data;
     // }
+    this.logger.log('Groq response:', { message });
 
     const responseTimestamp = new Date();
     return {
@@ -148,6 +155,29 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
     }
 
     return new Groq({ apiKey: connection.config.apiKey });
+  }
+
+  private parseRequestMessagesToGroqFormat(
+    request: CompletionRequest,
+  ): Array<ChatCompletionUserMessageParam | ChatCompletionAssistantMessageParam | ChatCompletionSystemMessageParam> {
+    return request.messages.map((msg) => {
+      const baseMessage = { name: msg.name || '', content: msg.content ?? '' };
+
+      switch (msg.role) {
+        case 'user':
+          return { ...baseMessage, role: 'user' } as ChatCompletionUserMessageParam;
+        case 'assistant':
+          return {
+            ...baseMessage,
+            role: 'assistant',
+            tool_calls: msg.toolCalls as TokenMessage['tool_calls'],
+          } as ChatCompletionAssistantMessageParam;
+        case 'system':
+          return { ...baseMessage, role: 'system' } as ChatCompletionSystemMessageParam;
+        default:
+          throw new Error(`Unsupported role: ${msg.role}`);
+      }
+    });
   }
 
   // private async parseStreamingResponse(

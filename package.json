@@ -13,6 +13,7 @@
     "@grpc/grpc-js": "^1.10.8",
     "@nestjs/common": "^10.3.9",
     "@vm-x-ai/completion-provider": "0.9.0",
+    "groq-sdk": "^0.7.0",
     "nestjs-otel": "6.1.1",
     "openai": "^4.48.3",
     "openapi-types": "^12.1.3",
