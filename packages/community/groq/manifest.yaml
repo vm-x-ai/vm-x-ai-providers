@@ -25,7 +25,7 @@ config:
           type: string
           format: secret
           title: Groq API Key
-          description: e.g. gsk_abcdefghijklmnopqrstuvwxyz
+          description: 'e.g. gsk_..........'
       errorMessage:
         required:
           apiKey: API Key is required
@@ -33,10 +33,12 @@ config:
   # Local path to the provider handler
   handler:
     src: './src/index.ts'
-    module: 'DummyLLMProvider'
+    module: 'GroqLLMProvider'
     tsConfigPath: './tsconfig.lib.json'
 
   # List of supported models
   models:
+    - label: 'LLama3 (8b-8192)'
+      value: llama3-8b-8192
     - label: Dummy
       value: dummy

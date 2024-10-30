@@ -160,7 +160,7 @@ export class OpenAILLMProvider extends BaseCompletionProvider<OpenAI> implements
 
   protected override async createClient(connection: AIConnection<OpenAIConnectionConfig>): Promise<OpenAI> {
     if (!connection.config?.apiKey) {
-      throw new Error('API Key cannot be foung in the AI connection config');
+      throw new Error('API Key cannot be found in the AI connection config');
     }
 
     return new OpenAI({ apiKey: connection.config?.apiKey });
