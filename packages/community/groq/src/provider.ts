@@ -11,20 +11,17 @@ import type {
 } from '@vm-x-ai/completion-provider';
 import { BaseCompletionProvider, TokenCounter } from '@vm-x-ai/completion-provider';
 import Groq from 'groq-sdk';
+import { Stream } from 'groq-sdk/lib/streaming';
 import type {
-  ChatCompletion,
   ChatCompletionCreateParams,
   ChatCompletionCreateParamsNonStreaming,
   ChatCompletionCreateParamsStreaming,
-  CompletionCreateParams,
   ChatCompletionUserMessageParam,
   ChatCompletionAssistantMessageParam,
   ChatCompletionSystemMessageParam,
 } from 'groq-sdk/resources/chat/completions';
-
 import { Span } from 'nestjs-otel';
 import type { Subject } from 'rxjs';
-import { v4 as uuidv4 } from 'uuid';
 
 const API_TIMEOUT_SECONDS = 300;
 
@@ -93,7 +90,7 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
       model: model.model,
       max_tokens: this.getMaxReplyTokens(request),
       temperature: request.config?.temperature ?? 0.5,
-      stream: false, //request.stream,
+      stream: request.stream,
       tool_choice: request.toolChoice?.auto ? 'auto' : undefined,
       tools: (request.tools || []).length > 0 ? (request.tools as any[]) : undefined,
       messages: this.parseRequestMessagesToGroqFormat(request),
@@ -103,8 +100,8 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
       request: groqRequest, // WHY DOES THIS NOT GET LOGGED?
     });
 
-    //let message: any;
-    const timeToFirstToken: number | null = null;
+    let message;
+    let timeToFirstToken: number | null = null;
     const startTime = Date.now();
 
     const { data } = await client.chat.completions
@@ -113,24 +110,24 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
       })
       .withResponse();
 
-    // if (request.stream && data instanceof Stream) {
-    //   ({ message, timeToFirstToken } = await this.parseStreamingResponse(
-    //     request,
-    //     data,
-    //     model,
-    //     metadata,
-    //     startTime,
-    //     observable,
-    //   ));
-    // } else {
-    const message = data;
-    // }
+    if (data instanceof Stream) {
+      ({ message, timeToFirstToken } = await this.parseStreamingResponse(
+        request,
+        data,
+        model,
+        metadata,
+        startTime,
+        observable,
+      ));
+    } else {
+      message = data;
+    }
     this.logger.log('Groq response:', { message });
 
     const responseTimestamp = new Date();
     return {
-      id: data.id,
-      role: data.choices[0].message.role,
+      id: message.id,
+      role: message.choices[0].message.role,
       toolCalls: [],
       message: request.stream ? '' : message?.choices[0]?.message?.content ?? '',
       responseTimestamp: responseTimestamp.getTime(),
@@ -180,36 +177,123 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
     });
   }
 
-  // private async parseStreamingResponse(
-  //   request: CompletionRequest,
-  //   data: any,
-  //   model: ResourceModelConfig,
-  //   metadata: CompletionMetadata,
-  //   startTime: number,
-  //   observable: Subject<CompletionResponse>,
-  // ): Promise<{ message: any; timeToFirstToken: number }> {
-  //   let timeToFirstToken = 0;
-  //   let message;
+  private async parseStreamingResponse(
+    request: CompletionRequest,
+    data: Stream<Groq.Chat.Completions.ChatCompletionChunk>,
+    model: ResourceModelConfig,
+    metadata: CompletionMetadata,
+    startTime: number,
+    observable: Subject<CompletionResponse>,
+  ): Promise<{ message: Groq.Chat.Completions.ChatCompletion; timeToFirstToken: number }> {
+    let timeToFirstToken = 0;
+    const messageChoice: Groq.Chat.Completions.ChatCompletion.Choice = {
+      finish_reason: null as never,
+      index: 0,
+      message: {
+        content: null,
+        role: 'assistant',
+      },
+      logprobs: null,
+    };
 
-  //   for await (const chunk of data) {
-  //     if (timeToFirstToken === 0) {
-  //       timeToFirstToken = Date.now() - startTime;
-  //     }
+    const message: Groq.Chat.Completions.ChatCompletion = {
+      id: '',
+      created: 0,
+      model: '',
+      object: 'chat.completion',
+      usage: undefined,
+      choices: [messageChoice],
+    };
 
-  //     message = chunk;
-  //     observable.next({
-  //       id: chunk.id,
-  //       role: chunk.choices[0].delta.role || 'assistant',
-  //       message: chunk.choices[0].delta.content || '',
-  //       toolCalls: [],
-  //       metadata: {
-  //         ...this.getMetadata(model, metadata),
-  //         done: false,
-  //       },
-  //       finishReason: chunk.choices[0].finish_reason,
-  //     });
-  //   }
+    for await (const part of data) {
+      if (timeToFirstToken === 0) {
+        timeToFirstToken = Date.now() - startTime;
+      }
 
-  //   return { message, timeToFirstToken };
-  // }
+      message.id = part.id;
+      message.created = part.created;
+      message.model = part.model;
+
+      if (!part.choices || part.choices.length === 0) {
+        if (request.includeRawResponse) {
+          observable.next({
+            id: message.id,
+            message: '',
+            role: messageChoice.message.role,
+            toolCalls: [],
+            metadata: {
+              ...this.getMetadata(model, metadata),
+              done: false,
+            },
+            rawResponse: part,
+            finishReason: undefined,
+          });
+        }
+        continue;
+      }
+
+      const choice = part.choices[0];
+      messageChoice.index = choice.index;
+      messageChoice.logprobs = choice.logprobs ?? null;
+      if (choice.delta.content) {
+        if (messageChoice.message.content === null) {
+          messageChoice.message.content = '';
+        }
+
+        messageChoice.message.content += choice.delta.content;
+      }
+
+      if (choice.finish_reason) {
+        messageChoice.finish_reason = choice.finish_reason;
+      }
+
+      if (choice.delta.tool_calls) {
+        messageChoice.message.tool_calls = messageChoice.message.tool_calls || [];
+        for (const toolCall of choice.delta.tool_calls) {
+          if (!messageChoice.message.tool_calls[toolCall.index]) {
+            messageChoice.message.tool_calls[toolCall.index] = {
+              id: toolCall.id,
+              type: toolCall.type,
+              function: toolCall.function,
+            } as never;
+          } else if (toolCall.function?.arguments) {
+            messageChoice.message.tool_calls[toolCall.index].function.arguments += toolCall.function.arguments;
+          }
+        }
+      }
+
+      if ((choice.finish_reason === null || choice.finish_reason !== 'tool_calls') && !choice.delta.tool_calls) {
+        if (choice.delta.content && !request.includeRawResponse) {
+          observable.next({
+            id: message.id,
+            message: choice.delta.content,
+            role: messageChoice.message.role,
+            toolCalls: messageChoice.message.tool_calls ?? [],
+            metadata: {
+              ...this.getMetadata(model, metadata),
+              done: false,
+            },
+            finishReason: choice.finish_reason ?? undefined,
+          });
+        }
+      }
+
+      if (request.includeRawResponse) {
+        observable.next({
+          id: message.id,
+          message: choice.delta.content ?? '',
+          role: messageChoice.message.role,
+          toolCalls: messageChoice.message.tool_calls ?? [],
+          metadata: {
+            ...this.getMetadata(model, metadata),
+            done: false,
+          },
+          rawResponse: part,
+          finishReason: choice.finish_reason ?? undefined,
+        });
+      }
+    }
+
+    return { message, timeToFirstToken };
+  }
 }
