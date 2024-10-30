@@ -18,8 +18,8 @@ dependencies:
     specifier: ^10.3.9
     version: 10.3.9(reflect-metadata@0.2.2)(rxjs@7.8.1)
   '@vm-x-ai/completion-provider':
-    specifier: 0.8.4
-    version: 0.8.4(@nestjs/core@10.3.9)(reflect-metadata@0.2.2)
+    specifier: 0.9.0
+    version: 0.9.0(@nestjs/core@10.3.9)(reflect-metadata@0.2.2)
   nestjs-otel:
     specifier: 6.1.1
     version: 6.1.1(@nestjs/common@10.3.9)(@nestjs/core@10.3.9)
@@ -128,8 +128,8 @@ devDependencies:
     specifier: ^1.3.1
     version: 1.6.0(vitest@1.6.0)
   '@vm-x-ai/completion-provider-nx':
-    specifier: ^0.3.4
-    version: 0.3.4(@nestjs/core@10.3.9)(@swc-node/register@1.9.1)(@swc/core@1.5.25)(@types/node@20.14.2)(nx@20.0.3)(reflect-metadata@0.2.2)(typescript@5.5.4)
+    specifier: ^0.3.5
+    version: 0.3.5(@nestjs/core@10.3.9)(@swc-node/register@1.9.1)(@swc/core@1.5.25)(@types/node@20.14.2)(nx@20.0.3)(reflect-metadata@0.2.2)(typescript@5.5.4)
   commitizen:
     specifier: 4.2.4
     version: 4.2.4(@types/node@20.14.2)(typescript@5.5.4)
@@ -6113,13 +6113,13 @@ packages:
       long: 5.2.3
       protobufjs: 7.3.0
 
-  /@vm-x-ai/completion-provider-nx@0.3.4(@nestjs/core@10.3.9)(@swc-node/register@1.9.1)(@swc/core@1.5.25)(@types/node@20.14.2)(nx@20.0.3)(reflect-metadata@0.2.2)(typescript@5.5.4):
-    resolution: {integrity: sha512-sfsFOkmk+nvh8ZMqm9CzKvTVNQ96gDnNY87G2QcUMGMwsnX/d+HdTDAquiZBvCRxNEQWCBF89trCFK/iwZL4WA==}
+  /@vm-x-ai/completion-provider-nx@0.3.5(@nestjs/core@10.3.9)(@swc-node/register@1.9.1)(@swc/core@1.5.25)(@types/node@20.14.2)(nx@20.0.3)(reflect-metadata@0.2.2)(typescript@5.5.4):
+    resolution: {integrity: sha512-s+hy8QV5L5d5wvzwuATLJagTK6qzPteegm+7h0iq2DM0hViIMQv+c6omS4FwfJxTjXhEAOUfIrjaH9DaV2KvmQ==}
     dependencies:
       '@nx/devkit': 20.0.3(nx@20.0.3)
       '@nx/js': 20.0.3(@swc-node/register@1.9.1)(@swc/core@1.5.25)(@types/node@20.14.2)(nx@20.0.3)(typescript@5.5.4)
       '@swc/helpers': 0.5.11
-      '@vm-x-ai/completion-provider': 0.8.4(@nestjs/core@10.3.9)(reflect-metadata@0.2.2)
+      '@vm-x-ai/completion-provider': 0.9.0(@nestjs/core@10.3.9)(reflect-metadata@0.2.2)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@nestjs/core'
@@ -6146,8 +6146,8 @@ packages:
       - verdaccio
     dev: true
 
-  /@vm-x-ai/completion-provider@0.8.4(@nestjs/core@10.3.9)(reflect-metadata@0.2.2):
-    resolution: {integrity: sha512-YoszoirdsN5aWtQvSURYRUuxfJ4f7JHV9ida+OFRXs6zqv3sVseM/Ty8zDghQJEGssQJb19zjC51muRiRhErSA==}
+  /@vm-x-ai/completion-provider@0.9.0(@nestjs/core@10.3.9)(reflect-metadata@0.2.2):
+    resolution: {integrity: sha512-9DHIg6aRJhMalbbW57XU5lc+GmQkH8s2xnhQfyZWRuxncQergbHjwU6lIdpFDjkKsKbRrCDmKMjuweLfKD+OOw==}
     hasBin: true
     dependencies:
       '@grpc/grpc-js': 1.10.8
