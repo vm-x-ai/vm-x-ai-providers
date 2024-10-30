@@ -1,12 +1,40 @@
-## 1.3.0 (2024-10-22)
+## 1.6.0 (2024-10-30)
 
+### 🚀 Features
+
+- update completion provider package ([179d8fb](https://github.com/vm-x-ai/vm-x-ai-providers/commit/179d8fb))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
+## 1.5.0 (2024-10-29)
+
+### 🚀 Features
+
+- update completion provider package version ([c02c125](https://github.com/vm-x-ai/vm-x-ai-providers/commit/c02c125))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
+## 1.4.0 (2024-10-29)
+
+### 🚀 Features
+
+- add otel spans to all public methods ([a76dcea](https://github.com/vm-x-ai/vm-x-ai-providers/commit/a76dcea))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
+## 1.3.0 (2024-10-22)
 
 ### 🚀 Features
 
 - add watch publish commands ([a4abb31](https://github.com/vm-x-ai/vm-x-ai-providers/commit/a4abb31))
 
-
-### ❤️  Thank You
+### ❤️ Thank You
 
 - Lucas Vieira @lucasvieirasilva
 

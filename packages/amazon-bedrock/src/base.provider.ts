@@ -17,6 +17,7 @@ import {
   AIConnection,
   CompletionUsage,
   CompletionRpcException,
+  AIProviderConfig,
 } from '@vm-x-ai/completion-provider';
 import { BaseCompletionProvider, TokenCounter } from '@vm-x-ai/completion-provider';
 import { Subject } from 'rxjs';
@@ -45,8 +46,8 @@ export abstract class AmazonBedrockProvider<
   TResponse,
   TChunkResponse extends TResponse & StreamLastChunkBaseResponse = TResponse & StreamLastChunkBaseResponse,
 > extends BaseCompletionProvider<BedrockRuntimeClient> {
-  constructor(protected readonly logger: Logger) {
-    super();
+  constructor(logger: Logger, provider: AIProviderConfig) {
+    super(logger, provider);
   }
 
   public async invoke(

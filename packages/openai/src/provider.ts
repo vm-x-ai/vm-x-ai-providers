@@ -11,6 +11,7 @@ import type {
   ResourceModelConfig,
   AIConnection,
   TokenMessage,
+  AIProviderConfig,
 } from '@vm-x-ai/completion-provider';
 import { Span } from 'nestjs-otel';
 import { APIError, OpenAI, RateLimitError } from 'openai';
@@ -34,10 +35,11 @@ export type OpenAIConnectionConfig = {
 };
 
 export class OpenAILLMProvider extends BaseCompletionProvider<OpenAI> implements ICompletionProvider {
-  constructor(private readonly logger: Logger) {
-    super();
+  constructor(logger: Logger, provider: AIProviderConfig) {
+    super(logger, provider);
   }
 
+  @Span('OpenAI.getMaxReplyTokens')
   getMaxReplyTokens(request: CompletionRequest): number {
     return request.config?.max_tokens ?? 0;
   }
@@ -55,6 +57,7 @@ export class OpenAILLMProvider extends BaseCompletionProvider<OpenAI> implements
     return await callCompletion(request, connection, model, metadata, observable);
   }
 
+  @Span('OpenAI.getRequestTokens')
   public async getRequestTokens(request: CompletionRequest, modelConfig: ResourceModelConfig): Promise<number> {
     const usageClient = new TokenCounter({
       model: modelConfig.model,

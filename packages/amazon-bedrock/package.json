@@ -1,11 +1,11 @@
 {
   "name": "@vm-x-ai/providers-amazon-bedrock",
-  "version": "1.3.0",
+  "version": "1.6.0",
   "dependencies": {
     "@nestjs/common": "^10.3.9",
     "nestjs-otel": "^6.1.1",
     "rxjs": "^7.8.1",
-    "@vm-x-ai/completion-provider": "0.5.0",
+    "@vm-x-ai/completion-provider": "0.9.0",
     "esbuild-plugin-tsc": "^0.4.0",
     "uuid": "^9.0.1",
     "@aws-sdk/client-bedrock-runtime": "3.592.0",
