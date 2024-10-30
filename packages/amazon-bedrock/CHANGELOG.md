@@ -1,3 +1,13 @@
+## 1.6.0 (2024-10-30)
+
+### 🚀 Features
+
+- update completion provider package ([179d8fb](https://github.com/vm-x-ai/vm-x-ai-providers/commit/179d8fb))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 1.5.0 (2024-10-29)
 
 ### 🚀 Features
