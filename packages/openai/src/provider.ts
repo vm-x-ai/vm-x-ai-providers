@@ -106,9 +106,12 @@ export class OpenAILLMProvider extends BaseCompletionProvider<OpenAI> implements
       messages: this.parseRequestMessagesToOpenAIFormat(request),
     };
 
-    this.logger.log('Calling OpenAI API', {
-      request: openaiRequest,
-    });
+    this.logger.log(
+      {
+        request: openaiRequest,
+      },
+      'Calling OpenAI API',
+    );
 
     let message: OpenAI.Chat.Completions.ChatCompletion;
     let timeToFirstToken: number | null = null;

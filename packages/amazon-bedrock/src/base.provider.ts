@@ -330,15 +330,21 @@ export abstract class AmazonBedrockProvider<
     connection: AIConnection<AmazonBedrockAIConnectionConfig>,
   ): Promise<BedrockRuntimeClient> {
     if (connection.config) {
-      this.logger.log('Using custom IAM role for Bedrock client', {
-        roleArn: connection.config.iamRoleArn,
-      });
+      this.logger.log(
+        {
+          roleArn: connection.config.iamRoleArn,
+        },
+        'Using custom IAM role for Bedrock client',
+      );
 
       const cacheKey = connection.config.iamRoleArn;
       if (cachedProviders.has(cacheKey)) {
-        this.logger.log('Using cached IAM role credentials provider for Bedrock client', {
-          roleArn: connection.config.iamRoleArn,
-        });
+        this.logger.log(
+          {
+            roleArn: connection.config.iamRoleArn,
+          },
+          'Using cached IAM role credentials provider for Bedrock client',
+        );
         return new BedrockRuntimeClient({
           region: connection.config.region,
           credentials: cachedProviders.get(cacheKey),

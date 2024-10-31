@@ -131,9 +131,12 @@ export class AmazonBedrockMistralProvider
         modelId: model.model,
       };
 
-      this.logger.log('Amazon Bedrock Mistral Large Prompt', {
-        requestInput,
-      });
+      this.logger.log(
+        {
+          requestInput,
+        },
+        'Amazon Bedrock Mistral Large Prompt',
+      );
 
       return await this.invoke(requestInput, connection, request, model, metadata, observable);
     } else {
@@ -160,9 +163,12 @@ export class AmazonBedrockMistralProvider
         })
         .join('\n\n')}`;
 
-      this.logger.log('Amazon Bedrock Mistral prompt', {
-        prompt,
-      });
+      this.logger.log(
+        {
+          prompt,
+        },
+        'Amazon Bedrock Mistral prompt',
+      );
 
       const requestInput = {
         contentType: 'application/json',

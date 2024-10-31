@@ -98,10 +98,13 @@ export class AmazonBedrockLlama3Provider
       })
       .join('\n\n')}\n\n<|start_header_id|>assistant<|end_header_id|>`;
 
-    this.logger.log('Amazon Bedrock Llama3 prompt', {
-      prompt,
-      model: model.model,
-    });
+    this.logger.log(
+      {
+        prompt,
+        model: model.model,
+      },
+      'Amazon Bedrock Llama3 prompt',
+    );
 
     const requestInput = {
       contentType: 'application/json',
