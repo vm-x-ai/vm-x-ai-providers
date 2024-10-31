@@ -1,3 +1,13 @@
+## 1.6.1 (2024-10-31)
+
+### 🩹 Fixes
+
+- change logger argument order ([074ae90](https://github.com/vm-x-ai/vm-x-ai-providers/commit/074ae90))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 1.6.0 (2024-10-30)
 
 ### 🚀 Features
