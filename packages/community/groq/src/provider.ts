@@ -37,9 +37,9 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
   }
 
   getMaxReplyTokens(request: CompletionRequest): number {
-    const value = request.config?.max_tokens || 100; // REPLACE THIS!!
-    this.logger.log('max_tokens:', { value });
-    return value;
+    const maxTok = request.config?.max_tokens || 100; // REPLACE THIS!!
+    this.logger.log('maxTok:', maxTok);
+    return maxTok;
   }
 
   @Span('Groq.completion')
@@ -235,11 +235,11 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
       const choice = part.choices[0];
       messageChoice.index = choice.index;
       messageChoice.logprobs = choice.logprobs ?? null;
-      if (choice.delta.content) {
+
+      if (choice.delta?.content) {
         if (messageChoice.message.content === null) {
           messageChoice.message.content = '';
         }
-
         messageChoice.message.content += choice.delta.content;
       }
 
@@ -247,7 +247,7 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
         messageChoice.finish_reason = choice.finish_reason;
       }
 
-      if (choice.delta.tool_calls) {
+      if (choice.delta?.tool_calls) {
         messageChoice.message.tool_calls = messageChoice.message.tool_calls || [];
         for (const toolCall of choice.delta.tool_calls) {
           if (!messageChoice.message.tool_calls[toolCall.index]) {
@@ -262,8 +262,8 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
         }
       }
 
-      if ((choice.finish_reason === null || choice.finish_reason !== 'tool_calls') && !choice.delta.tool_calls) {
-        if (choice.delta.content && !request.includeRawResponse) {
+      if ((choice.finish_reason === null || choice.finish_reason !== 'tool_calls') && !choice.delta?.tool_calls) {
+        if (choice.delta?.content && !request.includeRawResponse) {
           observable.next({
             id: message.id,
             message: choice.delta.content,
@@ -281,7 +281,7 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
       if (request.includeRawResponse) {
         observable.next({
           id: message.id,
-          message: choice.delta.content ?? '',
+          message: choice.delta?.content ?? '',
           role: messageChoice.message.role,
           toolCalls: messageChoice.message.tool_calls ?? [],
           metadata: {
@@ -292,7 +292,16 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
           finishReason: choice.finish_reason ?? undefined,
         });
       }
-    }
+
+      if (part.x_groq?.usage) {
+        const usage = part.x_groq.usage;
+        message.usage = {
+          total_tokens: usage.total_tokens,
+          completion_tokens: usage.completion_tokens,
+          prompt_tokens: usage.prompt_tokens,
+        };
+      }
+    } // end of for loop (data parts)
 
     return { message, timeToFirstToken };
   }
