@@ -38,7 +38,7 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
 
   getMaxReplyTokens(request: CompletionRequest): number {
     const maxTok = request.config?.max_tokens || 100; // REPLACE THIS!!
-    this.logger.log('maxTok:', maxTok);
+    this.logger.log(maxTok, ' = maxTok');
     return maxTok;
   }
 
@@ -88,7 +88,6 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
     const groqRequest: ChatCompletionCreateParams = {
       ...(request.config || {}),
       model: model.model,
-      max_tokens: this.getMaxReplyTokens(request),
       temperature: request.config?.temperature ?? 0.5,
       stream: request.stream,
       tool_choice: request.toolChoice?.auto ? 'auto' : undefined,
@@ -96,9 +95,7 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
       messages: this.parseRequestMessagesToGroqFormat(request),
     };
 
-    this.logger.log('Calling Groq API', {
-      request: groqRequest, // WHY DOES THIS NOT GET LOGGED?
-    });
+    this.logger.log({ request: groqRequest }, 'Calling Groq API');
 
     let message;
     let timeToFirstToken: number | null = null;
@@ -122,7 +119,7 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
     } else {
       message = data;
     }
-    this.logger.log('Groq response:', { message });
+    this.logger.log({ message }, 'Groq response');
 
     const responseTimestamp = new Date();
     return {
@@ -142,6 +139,13 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
         ...this.getMetadata(model, metadata),
         done: true,
       },
+      metrics: message.usage
+        ? {
+            timeToFirstToken: timeToFirstToken ?? undefined,
+            tokensPerSecond: message.usage.total_tokens / ((Date.now() - startTime) / 1000),
+          }
+        : undefined,
+      rawResponse: message,
       finishReason: message?.choices[0]?.finish_reason || 'stop',
     };
   }
