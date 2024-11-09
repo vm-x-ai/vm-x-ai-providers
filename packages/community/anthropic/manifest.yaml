@@ -1,0 +1,52 @@
+# Provider ID, it must be unique
+id: anthropic
+
+name: Anthropic
+description: ADD DESCRIPTION HERE
+
+type: community # Allowed values: official, community
+
+visibility: private # Allowed values: public, private
+
+config:
+  logo:
+    src: ./assets/logos/anthropic-640x640.png
+
+  # AI Connection Form (VM-X Console UI)
+  connection:
+    form:
+      # JSON Schema with AJV Error Messages
+      type: object
+      title: Credentials
+      required:
+        - apiKey
+      properties:
+        apiKey:
+          type: string
+          format: secret
+          title: Anthropic API Key
+          description: 'e.g. sk-ant-api..........'
+      errorMessage:
+        required:
+          apiKey: API Key is required
+
+  # Local path to the provider handler
+  handler:
+    src: './src/index.ts'
+    module: 'AnthropicLLMProvider'
+    tsConfigPath: './tsconfig.lib.json'
+
+  # List of supported models
+  models:
+    - label: 'Claude 3.5 Sonnet'
+      value: claude-3-5-sonnet-latest
+    - label: 'Claude 3.5 Haiku'
+      value: claude-3-5-haiku-latest
+    - label: 'Claude 3 Opus'
+      value: claude-3-opus-latest
+    - label: 'Claude 3 Opus'
+      value: claude-3-opus-latest
+    - label: 'Claude 2.1'
+      value: claude-2.1
+    - label: 'Claude Instant 1.2'
+      value: claude-instant-1.2
