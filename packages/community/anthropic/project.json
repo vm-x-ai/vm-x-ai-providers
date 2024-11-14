@@ -1,7 +1,7 @@
 {
   "name": "anthropic",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/anthropic/src",
+  "sourceRoot": "packages/community/anthropic/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -19,7 +19,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "reportsDirectory": "../../coverage/packages/anthropic"
+        "reportsDirectory": "../../../coverage/packages/community/anthropic"
       }
     },
     "publish": {

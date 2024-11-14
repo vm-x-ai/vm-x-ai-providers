@@ -1,5 +1,4 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { Stream } from '@anthropic-ai/sdk/streaming';
 import type {
   MessageCreateParamsBase,
   MessageCreateParams,
@@ -16,6 +15,7 @@ import type {
   ToolUseBlock,
   TextDelta,
 } from '@anthropic-ai/sdk/resources/messages';
+import { Stream } from '@anthropic-ai/sdk/streaming';
 import type { Logger } from '@nestjs/common';
 import type {
   CompletionMetadata,
@@ -44,14 +44,14 @@ export class AnthropicLLMProvider extends BaseCompletionProvider<Anthropic> impl
     super(logger, provider);
   }
 
-  //@Span('Anthropic.getMaxReplyTokens')
+  @Span('Anthropic.getMaxReplyTokens')
   getMaxReplyTokens(request: CompletionRequest): number {
     const maxTok = request.config?.max_tokens || 100; // REPLACE THIS!!
     this.logger.log(maxTok, ' = maxTok');
     return maxTok;
   }
 
-  //@Span('Anthropic.completion')
+  @Span('Anthropic.completion')
   public async completion(
     request: CompletionRequest,
     connection: AIConnection<AnthropicConnectionConfig>,
@@ -79,7 +79,7 @@ export class AnthropicLLMProvider extends BaseCompletionProvider<Anthropic> impl
     return { usedTokens, completionUsedTokens, promptUsedTokens };
   }
 
-  //@Span('Anthropic.getRequestTokens')
+  @Span('Anthropic.getRequestTokens')
   public async getRequestTokens(request: CompletionRequest): Promise<number> {
     const { usedTokens } = await this.getRequestTokensDetails(request);
     return usedTokens;
@@ -113,16 +113,9 @@ export class AnthropicLLMProvider extends BaseCompletionProvider<Anthropic> impl
     // Handle tool choice and streaming as per Anthropic API
     const anthropicRequest: CallAPIRequest = {
       ...(request.config || {}),
-      ...(request.stream
-        ? {
-            stream_options: {
-              include_usage: true,
-            },
-          }
-        : {}),
-      max_tokens: request?.config?.max_tokens,
+      max_tokens: request?.config?.max_tokens || 1024, // <-- this should be a param in our ai provider setup, which can be overwritten by individual requests
       model: model.model,
-      temperature: request.config?.temperature ?? 0.5,
+      temperature: request.config?.temperature ?? 0.5, // <-- same here, this should be a param in the ai provider setup, which can be overwitten by each request
       stream: request.stream,
       ...((request.tools || []).length > 0 && {
         tool_choice: toolChoice,
@@ -155,10 +148,11 @@ export class AnthropicLLMProvider extends BaseCompletionProvider<Anthropic> impl
     } else {
       message = data;
     }
-    this.logger.log({ message }, 'Anthropic response');
+
+    this.logger.log({ responseMessage: message }, 'Anthropic response');
 
     const responseTimestamp = new Date();
-    const total_tokens = message.usage.output_tokens + message.usage.input_tokens;
+    const total_tokens = message?.usage?.output_tokens + message?.usage?.input_tokens;
     return {
       id: message.id,
       role: message.role,
