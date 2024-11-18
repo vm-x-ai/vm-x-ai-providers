@@ -1,3 +1,13 @@
+## 1.5.0 (2024-11-18)
+
+### 🚀 Features
+
+- **openai:** change form api key placeholder ([6d22e60](https://github.com/vm-x-ai/vm-x-ai-providers/commit/6d22e60))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 1.4.1 (2024-10-31)
 
 ### 🩹 Fixes
