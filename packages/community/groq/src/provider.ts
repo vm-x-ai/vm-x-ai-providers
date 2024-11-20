@@ -38,7 +38,6 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
 
   getMaxReplyTokens(request: CompletionRequest): number {
     const maxTok = request.config?.max_tokens || 100; // REPLACE THIS!!
-    this.logger.log(maxTok, ' = maxTok');
     return maxTok;
   }
 
@@ -50,7 +49,6 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
     metadata: CompletionMetadata,
     observable: Subject<CompletionResponse>,
   ): Promise<CompletionResponse> {
-    //const callCompletion = this.errorHandling(this.callCompletion.bind(this));
     return await this.callCompletion(request, connection, model, metadata, observable);
   }
 
@@ -88,7 +86,7 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
     const groqRequest: ChatCompletionCreateParams = {
       ...(request.config || {}),
       model: model.model,
-      temperature: request.config?.temperature ?? 0.5,
+      ...(request.config?.temperature && { temperature: request.config?.temperature }),
       stream: request.stream,
       tool_choice: request.toolChoice?.auto ? 'auto' : undefined,
       tools: (request.tools || []).length > 0 ? (request.tools as any[]) : undefined,
@@ -218,24 +216,6 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
       message.created = part.created;
       message.model = part.model;
 
-      if (!part.choices || part.choices.length === 0) {
-        if (request.includeRawResponse) {
-          observable.next({
-            id: message.id,
-            message: '',
-            role: messageChoice.message.role,
-            toolCalls: [],
-            metadata: {
-              ...this.getMetadata(model, metadata),
-              done: false,
-            },
-            rawResponse: part,
-            finishReason: undefined,
-          });
-        }
-        continue;
-      }
-
       const choice = part.choices[0];
       messageChoice.index = choice.index;
       messageChoice.logprobs = choice.logprobs ?? null;
@@ -267,7 +247,7 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
       }
 
       if ((choice.finish_reason === null || choice.finish_reason !== 'tool_calls') && !choice.delta?.tool_calls) {
-        if (choice.delta?.content && !request.includeRawResponse) {
+        if (choice.delta?.content) {
           observable.next({
             id: message.id,
             message: choice.delta.content,
@@ -280,21 +260,6 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
             finishReason: choice.finish_reason ?? undefined,
           });
         }
-      }
-
-      if (request.includeRawResponse) {
-        observable.next({
-          id: message.id,
-          message: choice.delta?.content ?? '',
-          role: messageChoice.message.role,
-          toolCalls: messageChoice.message.tool_calls ?? [],
-          metadata: {
-            ...this.getMetadata(model, metadata),
-            done: false,
-          },
-          rawResponse: part,
-          finishReason: choice.finish_reason ?? undefined,
-        });
       }
 
       if (part.x_groq?.usage) {

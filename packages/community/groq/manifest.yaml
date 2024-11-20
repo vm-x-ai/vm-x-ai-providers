@@ -2,7 +2,7 @@
 id: groq
 
 name: Groq
-description: ADD DESCRIPTION HERE
+description: Groq AI Provider
 
 type: community # Allowed values: official, community
 

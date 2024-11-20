@@ -1,7 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
 import type {
-  MessageCreateParamsBase,
-  MessageCreateParams,
   MessageCreateParamsNonStreaming,
   MessageCreateParamsStreaming,
   ToolChoice,
@@ -13,7 +11,6 @@ import type {
   ContentBlock,
   TextBlock,
   ToolUseBlock,
-  TextDelta,
 } from '@anthropic-ai/sdk/resources/messages';
 import { Stream } from '@anthropic-ai/sdk/streaming';
 import type { Logger } from '@nestjs/common';
@@ -47,7 +44,6 @@ export class AnthropicLLMProvider extends BaseCompletionProvider<Anthropic> impl
   @Span('Anthropic.getMaxReplyTokens')
   getMaxReplyTokens(request: CompletionRequest): number {
     const maxTok = request.config?.max_tokens || 100; // REPLACE THIS!!
-    this.logger.log(maxTok, ' = maxTok');
     return maxTok;
   }
 
@@ -59,7 +55,6 @@ export class AnthropicLLMProvider extends BaseCompletionProvider<Anthropic> impl
     metadata: CompletionMetadata,
     observable: Subject<CompletionResponse>,
   ): Promise<CompletionResponse> {
-    //const callCompletion = this.errorHandling(this.callCompletion.bind(this));
     return await this.callCompletion(request, connection, model, metadata, observable);
   }
 
@@ -115,8 +110,8 @@ export class AnthropicLLMProvider extends BaseCompletionProvider<Anthropic> impl
       ...(request.config || {}),
       max_tokens: request?.config?.max_tokens || 1024, // <-- this should be a param in our ai provider setup, which can be overwritten by individual requests
       model: model.model,
-      temperature: request.config?.temperature ?? 0.5, // <-- same here, this should be a param in the ai provider setup, which can be overwitten by each request
       stream: request.stream,
+      ...(request.config?.temperature && { temperature: request.config?.temperature }),
       ...((request.tools || []).length > 0 && {
         tool_choice: toolChoice,
         tools: request.tools as any[],

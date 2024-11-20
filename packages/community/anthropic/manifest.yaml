@@ -2,7 +2,7 @@
 id: anthropic
 
 name: Anthropic
-description: ADD DESCRIPTION HERE
+description: Anthropic AI (provider of Claude)
 
 type: community # Allowed values: official, community
 
