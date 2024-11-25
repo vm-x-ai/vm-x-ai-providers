@@ -32,12 +32,18 @@ export type GroqConnectionConfig = {
 };
 
 export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICompletionProvider {
+  private modelsMaxTokensMap: Record<string, number | undefined> = {};
+
   constructor(logger: Logger, provider: AIProviderConfig) {
     super(logger, provider);
+    this.modelsMaxTokensMap = provider.config.models.reduce((acc, item) => {
+      return { ...acc, [item.value]: item?.options?.max_tokens };
+    }, {});
   }
 
-  getMaxReplyTokens(request: CompletionRequest): number {
-    const maxTok = request.config?.max_tokens || 100; // REPLACE THIS!!
+  @Span('Anthropic.getMaxReplyTokens')
+  getMaxReplyTokens(request: CompletionRequest, modelConfig: ResourceModelConfig): number {
+    const maxTok = request.config?.max_tokens || this.modelsMaxTokensMap[modelConfig.model] || undefined;
     return maxTok;
   }
 
@@ -87,6 +93,9 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
       ...(request.config || {}),
       model: model.model,
       ...(request.config?.temperature && { temperature: request.config?.temperature }),
+      ...((request.config?.max_tokens || this.modelsMaxTokensMap[model.model]) && {
+        max_tokens: request?.config?.max_tokens || this.modelsMaxTokensMap[model.model],
+      }),
       stream: request.stream,
       tool_choice: request.toolChoice?.auto ? 'auto' : undefined,
       tools: (request.tools || []).length > 0 ? (request.tools as any[]) : undefined,

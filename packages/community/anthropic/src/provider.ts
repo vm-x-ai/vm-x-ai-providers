@@ -37,13 +37,18 @@ export type AnthropicConnectionConfig = {
 };
 
 export class AnthropicLLMProvider extends BaseCompletionProvider<Anthropic> implements ICompletionProvider {
+  private modelsMaxTokensMap: Record<string, number | undefined> = {};
+
   constructor(logger: Logger, provider: AIProviderConfig) {
     super(logger, provider);
+    this.modelsMaxTokensMap = provider.config.models.reduce((acc, item) => {
+      return { ...acc, [item.value]: item?.options?.max_tokens };
+    }, {});
   }
 
   @Span('Anthropic.getMaxReplyTokens')
-  getMaxReplyTokens(request: CompletionRequest): number {
-    const maxTok = request.config?.max_tokens || 100; // REPLACE THIS!!
+  getMaxReplyTokens(request: CompletionRequest, modelConfig: ResourceModelConfig): number {
+    const maxTok = request.config?.max_tokens || this.modelsMaxTokensMap[modelConfig.model] || undefined;
     return maxTok;
   }
 
@@ -108,7 +113,7 @@ export class AnthropicLLMProvider extends BaseCompletionProvider<Anthropic> impl
     // Handle tool choice and streaming as per Anthropic API
     const anthropicRequest: CallAPIRequest = {
       ...(request.config || {}),
-      max_tokens: request?.config?.max_tokens || 1024, // <-- this should be a param in our ai provider setup, which can be overwritten by individual requests
+      max_tokens: request?.config?.max_tokens || this.modelsMaxTokensMap[model.model] || 4096,
       model: model.model,
       stream: request.stream,
       ...(request.config?.temperature && { temperature: request.config?.temperature }),
