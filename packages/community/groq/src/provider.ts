@@ -133,7 +133,7 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
       id: message.id,
       role: message.choices[0].message.role,
       toolCalls: [],
-      message: request.stream ? '' : message?.choices[0]?.message?.content ?? '',
+      message: request.stream ? '' : (message?.choices[0]?.message?.content ?? ''),
       responseTimestamp: responseTimestamp.getTime(),
       usage: message.usage
         ? {

@@ -157,7 +157,7 @@ export class AnthropicLLMProvider extends BaseCompletionProvider<Anthropic> impl
       id: message.id,
       role: message.role,
       toolCalls: [],
-      message: request.stream ? '' : message?.content.find((block) => block.type === 'text')?.text ?? '',
+      message: request.stream ? '' : (message?.content.find((block) => block.type === 'text')?.text ?? ''),
       responseTimestamp: responseTimestamp.getTime(),
       usage: message.usage
         ? {
