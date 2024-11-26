@@ -140,7 +140,7 @@ export class OpenAILLMProvider extends BaseCompletionProvider<OpenAI> implements
       id: message.id,
       role: message.choices[0].message.role,
       toolCalls: message.choices[0].message.tool_calls || [],
-      message: request.stream ? '' : (message.choices[0].message.content ?? ''),
+      message: request.stream ? '' : message.choices[0].message.content ?? '',
       responseTimestamp: responseTimestamp.getTime(),
       usage: message.usage
         ? {
