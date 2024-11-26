@@ -37,7 +37,7 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
   constructor(logger: Logger, provider: AIProviderConfig) {
     super(logger, provider);
     this.modelsMaxTokensMap = provider.config.models.reduce((acc, item) => {
-      return { ...acc, [item.value]: item?.options?.max_tokens };
+      return { ...acc, [item.value]: item?.options?.maxTokens };
     }, {});
   }
 
@@ -133,7 +133,7 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
       id: message.id,
       role: message.choices[0].message.role,
       toolCalls: [],
-      message: request.stream ? '' : (message?.choices[0]?.message?.content ?? ''),
+      message: request.stream ? '' : message?.choices[0]?.message?.content ?? '',
       responseTimestamp: responseTimestamp.getTime(),
       usage: message.usage
         ? {

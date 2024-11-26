@@ -42,7 +42,7 @@ export class AnthropicLLMProvider extends BaseCompletionProvider<Anthropic> impl
   constructor(logger: Logger, provider: AIProviderConfig) {
     super(logger, provider);
     this.modelsMaxTokensMap = provider.config.models.reduce((acc, item) => {
-      return { ...acc, [item.value]: item?.options?.max_tokens };
+      return { ...acc, [item.value]: item?.options?.maxTokens };
     }, {});
   }
 
@@ -157,7 +157,7 @@ export class AnthropicLLMProvider extends BaseCompletionProvider<Anthropic> impl
       id: message.id,
       role: message.role,
       toolCalls: [],
-      message: request.stream ? '' : (message?.content.find((block) => block.type === 'text')?.text ?? ''),
+      message: request.stream ? '' : message?.content.find((block) => block.type === 'text')?.text ?? '',
       responseTimestamp: responseTimestamp.getTime(),
       usage: message.usage
         ? {
