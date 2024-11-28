@@ -41,24 +41,24 @@ config:
     - label: 'Claude 3.5 Sonnet'
       value: claude-3-5-sonnet-latest
       options:
-        max_tokens: 8192
+        maxTokens: 8192
     - label: 'Claude 3.5 Haiku'
       value: claude-3-5-haiku-latest
       options:
-        max_tokens: 8192
+        maxTokens: 8192
     - label: 'Claude 3 Opus'
       value: claude-3-opus-latest
       options:
-        max_tokens: 4096
+        maxTokens: 4096
     - label: 'Claude 3 Opus'
       value: claude-3-opus-latest
       options:
-        max_tokens: 4096
+        maxTokens: 4096
     - label: 'Claude 2.1'
       value: claude-2.1
       options:
-        max_tokens: 4096
+        maxTokens: 4096
     - label: 'Claude Instant 1.2'
       value: claude-instant-1.2
       options:
-        max_tokens: 4096
+        maxTokens: 4096
