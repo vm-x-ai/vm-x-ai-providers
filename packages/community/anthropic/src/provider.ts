@@ -176,7 +176,6 @@ export class AnthropicLLMProvider extends BaseCompletionProvider<Anthropic> impl
             tokensPerSecond: total_tokens / ((Date.now() - startTime) / 1000),
           }
         : undefined,
-      rawResponse: message,
       finishReason: this.parseFinishReason(message?.stop_reason) || 'stop',
     };
   }
