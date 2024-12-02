@@ -119,7 +119,7 @@ export class AnthropicLLMProvider extends BaseCompletionProvider<Anthropic> impl
       ...(request.config?.temperature && { temperature: request.config?.temperature }),
       ...((request.tools || []).length > 0 && {
         tool_choice: toolChoice,
-        tools: request.tools as any[],
+        tools: request.tools as unknown as CallAPIRequest['tools'],
       }),
       messages: this.parseRequestMessagesToAnthropicFormat(request),
     };

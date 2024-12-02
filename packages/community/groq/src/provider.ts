@@ -98,7 +98,7 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
       }),
       stream: request.stream,
       tool_choice: request.toolChoice?.auto ? 'auto' : undefined,
-      tools: (request.tools || []).length > 0 ? (request.tools as any[]) : undefined,
+      tools: (request.tools || []).length > 0 ? (request.tools as ChatCompletionCreateParams['tools']) : undefined,
       messages: this.parseRequestMessagesToGroqFormat(request),
     };
 
@@ -152,7 +152,6 @@ export class GroqLLMProvider extends BaseCompletionProvider<Groq> implements ICo
             tokensPerSecond: message.usage.total_tokens / ((Date.now() - startTime) / 1000),
           }
         : undefined,
-      rawResponse: message,
       finishReason: message?.choices[0]?.finish_reason || 'stop',
     };
   }

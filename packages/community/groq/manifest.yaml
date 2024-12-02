@@ -6,7 +6,7 @@ description: Groq AI Provider
 
 type: community # Allowed values: official, community
 
-visibility: private # Allowed values: public, private
+visibility: public # Allowed values: public, private
 
 config:
   logo:
