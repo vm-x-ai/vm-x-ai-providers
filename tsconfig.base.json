@@ -24,6 +24,7 @@
     "typeRoots": ["node_modules/@types", "./types", "./node_modules"],
     "paths": {
       "@vm-x-ai/anthropic": ["packages/community/anthropic/src/index.ts"],
+      "@vm-x-ai/gemini": ["packages/community/gemini/src/index.ts"],
       "@vm-x-ai/groq": ["packages/community/groq/src/index.ts"]
     }
   },

@@ -1,0 +1,17 @@
+{
+  "name": "@vm-x-ai/gemini",
+  "version": "0.0.1",
+  "dependencies": {
+    "esbuild-plugin-tsc": "^0.4.0",
+    "@nestjs/common": "^10.3.9",
+    "@vm-x-ai/completion-provider": "0.11.0",
+    "nestjs-otel": "6.1.1",
+    "rxjs": "^7.8.1",
+    "@anthropic-ai/sdk": "^0.32.1",
+    "@google/generative-ai": "^0.21.0",
+    "uuid": "^9.0.1"
+  },
+  "type": "commonjs",
+  "main": "./index.cjs",
+  "private": true
+}

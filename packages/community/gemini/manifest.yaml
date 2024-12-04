@@ -1,0 +1,41 @@
+# Provider ID, it must be unique
+id: gemini
+
+name: Gemini
+description: Google Gemini
+
+type: community # Allowed values: official, community
+
+visibility: private # Allowed values: public, private
+
+config:
+  logo:
+    src: ./assets/logos/google-330x330.png
+
+  # AI Connection Form (VM-X Console UI)
+  connection:
+    form:
+      type: object
+      title: Credentials
+      required:
+        - apiKey
+      properties:
+        apiKey:
+          type: string
+          format: secret
+          title: Gemini API Key
+          description: Go to [Google AI studio](https://aistudio.google.com/app/apikey) to create a Gemini API Key
+      errorMessage:
+        required:
+          apiKey: API Key is required
+
+  # Local path to the provider handler
+  handler:
+    src: './src/index.ts'
+    module: 'GeminiLLMProvider'
+    tsConfigPath: './tsconfig.lib.json'
+
+  # List of supported models
+  models:
+    - label: Gemini 1.5 Flash
+      value: gemini-1.5-flash
