@@ -4,6 +4,7 @@ import type {
   SingleRequestOptions,
   GenerationConfig,
   GenerativeModel,
+  EnhancedGenerateContentResponse,
   Content,
   TextPart,
   FunctionCallPart,
@@ -288,51 +289,48 @@ export class GeminiLLMProvider extends BaseCompletionProvider<GoogleGenerativeAI
       this.logger.log({ startChatParams, prompt }, 'Calling Gemini API');
 
       // make the AI model request
-      let chatResult;
-      const timeToFirstToken: number | null = null;
+      let chatResult: EnhancedGenerateContentResponse | undefined;
+      let timeToFirstToken: number | null = null;
       const startTime = Date.now();
 
-      // if (request.stream) {
-      //   const result = await chatSession.sendMessageStream(prompt);
-
-      //   // ({ message, timeToFirstToken } = await this.parseStreamingResponse(
-      //   //   request,
-      //   //   result.stream,
-      //   //   model,
-      //   //   metadata,
-      //   //   startTime,
-      //   //   observable,
-      //   // ));
-      // } else {
-      chatResult = {};
-      chatResult = await chatSession.sendMessage(prompt);
-      // }
+      if (request.stream) {
+        const result = await chatSession.sendMessageStream(prompt);
+        ({ chatResult, timeToFirstToken } = await this.parseStreamingResponse(
+          request,
+          result.stream,
+          model,
+          metadata,
+          startTime,
+          observable,
+        ));
+      } else {
+        chatResult = (await chatSession.sendMessage(prompt)).response;
+      }
 
       this.logger.log({ chatResult }, 'Gemini response');
+      this.logger.log({ timeToFirstToken }, 'timeToFirstToken');
 
       const responseTimestamp = new Date();
       const candidateZero =
-        Array.isArray(chatResult.response.candidates) && chatResult.response.candidates.length > 0
-          ? chatResult.response.candidates[0]
-          : null;
+        Array.isArray(chatResult.candidates) && chatResult.candidates.length > 0 ? chatResult.candidates[0] : null;
 
       const completion = {
         id: `${uuid()}`,
         role: 'assistant',
         toolCalls: [], // chatResult.response.functionCalls() || [],
-        message: chatResult.response.text() || 'dummy test value - work in progress',
+        message: chatResult.text() || '',
         responseTimestamp: responseTimestamp.getTime(),
-        usage: chatResult.response.usageMetadata
+        usage: chatResult.usageMetadata
           ? {
-              total: chatResult.response.usageMetadata.totalTokenCount,
-              completion: chatResult.response.usageMetadata.candidatesTokenCount,
-              prompt: chatResult.response.usageMetadata.promptTokenCount,
+              total: chatResult.usageMetadata.totalTokenCount,
+              completion: chatResult.usageMetadata.candidatesTokenCount,
+              prompt: chatResult.usageMetadata.promptTokenCount,
             }
           : undefined,
-        metrics: chatResult.response.usageMetadata
+        metrics: chatResult.usageMetadata
           ? {
               timeToFirstToken: timeToFirstToken ?? undefined,
-              tokensPerSecond: chatResult.response.usageMetadata.totalTokenCount / ((Date.now() - startTime) / 1000),
+              tokensPerSecond: chatResult.usageMetadata.totalTokenCount / ((Date.now() - startTime) / 1000),
             }
           : undefined,
         metadata: {
@@ -349,5 +347,133 @@ export class GeminiLLMProvider extends BaseCompletionProvider<GoogleGenerativeAI
       this.logger.log({ error }, 'Error in callCompletion method');
       throw error;
     }
+  }
+
+  private async parseStreamingResponse(
+    request: CompletionRequest,
+    data: AsyncGenerator<EnhancedGenerateContentResponse>,
+    model: ResourceModelConfig,
+    metadata: CompletionMetadata,
+    startTime: number,
+    observable: Subject<CompletionResponse>,
+  ): Promise<{ chatResult: EnhancedGenerateContentResponse; timeToFirstToken: number }> {
+    let timeToFirstToken = 0;
+    let chatResult: EnhancedGenerateContentResponse | undefined;
+    const accumulatedContent: Content = { role: 'assistant', parts: [] };
+    let currentPartIndex = -1;
+
+    for await (const chunk of data) {
+      if (timeToFirstToken === 0) {
+        timeToFirstToken = Date.now() - startTime;
+      }
+
+      const candidate = chunk.candidates?.[0];
+      if (candidate?.content) {
+        for (const part of candidate.content.parts) {
+          const currentPart = accumulatedContent.parts[currentPartIndex];
+
+          // Increment the index if needed
+          const needsNewPart =
+            !currentPart || // No part exists at this index
+            ('text' in currentPart && !('text' in part)) || // Type has changed, so we need to start a new part
+            'functionCall' in part; // Always increment for new functionCall (each functioncall is a separate part, and functioncalls are always delivered in 1 chunk)
+          if (needsNewPart) {
+            currentPartIndex++;
+          }
+
+          // If the current part doesn't exist at the index, initialize it
+          if (!accumulatedContent.parts[currentPartIndex]) {
+            if ('text' in part) {
+              accumulatedContent.parts[currentPartIndex] = { text: '' };
+            } else if ('functionCall' in part) {
+              accumulatedContent.parts[currentPartIndex] = {
+                functionCall: { name: '', args: {} },
+              };
+            } else {
+              continue; // Skip all other part types
+            }
+          }
+
+          // TEXT PART
+          if (
+            'text' in part &&
+            accumulatedContent.parts[currentPartIndex] &&
+            'text' in accumulatedContent.parts[currentPartIndex]
+          ) {
+            // accumulate content
+            (accumulatedContent.parts[currentPartIndex] as TextPart).text += part.text;
+
+            // send to the observable
+            observable.next({
+              id: `${uuid()}`,
+              role: candidate.content.role,
+              message: part.text,
+              toolCalls: [],
+              metadata: {
+                ...this.getMetadata(model, metadata),
+                done: false,
+              },
+              ...(candidate.finishReason
+                ? {
+                    finishReason: this.parseFinishReason(candidate.finishReason),
+                  }
+                : {}),
+            });
+          }
+
+          // FUNCTION CALL PART
+          if ('functionCall' in part && part.functionCall) {
+            // accumulate content (function call comes in 1 chunk fully)
+            accumulatedContent.parts[currentPartIndex] = {
+              functionCall: part.functionCall,
+            };
+
+            // send to the observable
+            observable.next({
+              id: `${uuid()}`,
+              role: candidate.content.role,
+              message: '',
+              toolCalls: [
+                {
+                  id: `${uuid()}`,
+                  type: 'function',
+                  function: {
+                    name: part.functionCall.name,
+                    arguments: JSON.stringify(part.functionCall.args),
+                  },
+                },
+              ],
+              metadata: {
+                ...this.getMetadata(model, metadata),
+                done: false,
+              },
+              ...(candidate.finishReason
+                ? {
+                    finishReason: this.parseFinishReason(candidate.finishReason),
+                  }
+                : {}),
+            });
+          }
+        }
+      }
+
+      // Update chatResult with the latest chunk
+      chatResult = {
+        ...chunk,
+        candidates: [
+          {
+            ...candidate,
+            content: accumulatedContent,
+            index: candidate?.index ?? 0,
+          },
+        ],
+      };
+    } // end of chunk loop
+
+    if (!chatResult) {
+      throw new Error('No data received from the stream.');
+    }
+
+    return { chatResult, timeToFirstToken };
   }
 }
