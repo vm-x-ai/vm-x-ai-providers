@@ -7,7 +7,8 @@
     "@vm-x-ai/completion-provider": "0.11.0",
     "nestjs-otel": "6.1.1",
     "rxjs": "^7.8.1",
-    "uuid": "^9.0.1"
+    "@grpc/grpc-js": "^1.10.8",
+    "openai": "^4.48.3"
   },
   "type": "commonjs",
   "main": "./index.cjs",
