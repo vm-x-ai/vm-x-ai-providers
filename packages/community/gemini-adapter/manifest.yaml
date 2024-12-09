@@ -1,8 +1,8 @@
 # Provider ID, it must be unique
 id: gemini-adapter
 
-name: Gemini Adapter
-description: ADD DESCRIPTION HERE
+name: Google Gemini
+description: Google Gemini
 
 type: community # Allowed values: official, community
 
@@ -10,38 +10,32 @@ visibility: private # Allowed values: public, private
 
 config:
   logo:
-    src: ./assets/logos/vmx.png
+    src: ./assets/logos/google-330x330.png
 
   # AI Connection Form (VM-X Console UI)
   connection:
     form:
-      # JSON Schema with AJV Error Messages
       type: object
-      required: []
-      properties: {}
-
-      # Example JSON Schema
-      # type: object
-      # title: Credentials
-      # required:
-      #   - apiKey
-      # properties:
-      #   apiKey:
-      #     type: string
-      #     format: secret
-      #     title: OpenAI API Key
-      #     description: e.g. sk-1234567890abcdef1234567890abcdef
-      # errorMessage:
-      #   required:
-      #     apiKey: API Key is required
+      title: Credentials
+      required:
+        - apiKey
+      properties:
+        apiKey:
+          type: string
+          format: secret
+          title: Gemini API Key
+          description: Go to [Google AI studio](https://aistudio.google.com/app/apikey) to create a Gemini API Key
+      errorMessage:
+        required:
+          apiKey: API Key is required
 
   # Local path to the provider handler
   handler:
     src: './src/index.ts'
-    module: 'DummyLLMProvider'
+    module: 'GeminiLLMProvider'
     tsConfigPath: './tsconfig.lib.json'
 
   # List of supported models
   models:
-    - label: Dummy
-      value: dummy
+    - label: Gemini 1.5 Flash
+      value: gemini-1.5-flash
