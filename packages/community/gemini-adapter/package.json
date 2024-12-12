@@ -1,6 +1,6 @@
 {
   "name": "@vm-x-ai/gemini-adapter",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "dependencies": {
     "esbuild-plugin-tsc": "^0.4.0",
     "@nestjs/common": "^10.3.9",

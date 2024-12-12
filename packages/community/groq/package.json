@@ -1,6 +1,6 @@
 {
   "name": "@vm-x-ai/groq",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "dependencies": {
     "@nestjs/common": "^10.3.9",
     "@vm-x-ai/completion-provider": "0.11.0",
