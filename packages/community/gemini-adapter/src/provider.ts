@@ -40,12 +40,12 @@ export class GeminiLLMProvider extends BaseCompletionProvider<OpenAI> implements
     super(logger, provider);
   }
 
-  @Span('OpenAI.getMaxReplyTokens')
+  @Span('Gemini.getMaxReplyTokens')
   getMaxReplyTokens(request: CompletionRequest): number {
     return request.config?.max_tokens ?? 0;
   }
 
-  @Span('OpenAI.completion')
+  @Span('Gemini.completion')
   async completion(
     request: CompletionRequest,
     connection: AIConnection,
@@ -58,7 +58,7 @@ export class GeminiLLMProvider extends BaseCompletionProvider<OpenAI> implements
     return await callCompletion(request, connection, model, metadata, observable);
   }
 
-  @Span('OpenAI.getRequestTokens')
+  @Span('Gemini.getRequestTokens')
   public async getRequestTokens(request: CompletionRequest, modelConfig: ResourceModelConfig): Promise<number> {
     const usageClient = new TokenCounter({
       model: modelConfig.model,
