@@ -42,8 +42,6 @@ config:
       value: llama3-8b-8192
     - label: 'Gemma2 (9b-it)'
       value: gemma2-9b-it
-    - label: 'Gemma (7b-it)'
-      value: gemma-7b-it
     - label: 'Llama3 Groq (70b-8192 tool-use preview)'
       value: llama3-groq-70b-8192-tool-use-preview
     - label: 'Llama3 Groq (8b-8192 tool-use preview)'
