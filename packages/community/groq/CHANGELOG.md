@@ -1,3 +1,13 @@
+## 0.3.0 (2024-12-13)
+
+### 🚀 Features
+
+- gemma-7b-it will be deprecated per december 18 ([#3](https://github.com/vm-x-ai/vm-x-ai-providers/pull/3))
+
+### ❤️ Thank You
+
+- campoblanco
+
 ## 0.2.0 (2024-12-12)
 
 ### 🚀 Features
