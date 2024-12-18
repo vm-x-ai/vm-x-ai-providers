@@ -35,6 +35,12 @@ export type OpenAIConnectionConfig = {
   apiKey: string;
 };
 
+type GeminiAdapterUsage = {
+  completionTokens: number;
+  promptTokens: number;
+  totalTokens: number;
+};
+
 export class GeminiLLMProvider extends BaseCompletionProvider<OpenAI> implements ICompletionProvider {
   constructor(logger: Logger, provider: AIProviderConfig) {
     super(logger, provider);
@@ -306,7 +312,15 @@ export class GeminiLLMProvider extends BaseCompletionProvider<OpenAI> implements
       message.model = part.model;
 
       if (part.usage) {
-        message.usage = part.usage;
+        message.usage =
+          // INFO: Some models return the usage in a different format, this must be a bug in the Gemini Adapter
+          'completionTokens' in part.usage
+            ? {
+                total_tokens: (part.usage as unknown as GeminiAdapterUsage).totalTokens,
+                completion_tokens: (part.usage as unknown as GeminiAdapterUsage).completionTokens,
+                prompt_tokens: (part.usage as unknown as GeminiAdapterUsage).promptTokens,
+              }
+            : part.usage;
       }
 
       if (!part.choices || part.choices.length === 0) {
