@@ -1,3 +1,13 @@
+## 0.4.0 (2024-12-20)
+
+### 🚀 Features
+
+- add GitHub Actions workflow for publishing all production ([8a63141](https://github.com/vm-x-ai/vm-x-ai-providers/commit/8a63141))
+
+### ❤️  Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 0.3.0 (2024-12-13)
 
 ### 🚀 Features
