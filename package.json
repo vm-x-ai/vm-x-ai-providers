@@ -13,7 +13,7 @@
     "@aws-sdk/credential-providers": "3.592.0",
     "@grpc/grpc-js": "^1.10.8",
     "@nestjs/common": "^10.3.9",
-    "@vm-x-ai/completion-provider": "0.11.0",
+    "@vm-x-ai/completion-provider": "0.11.3",
     "groq-sdk": "^0.7.0",
     "nestjs-otel": "6.1.1",
     "openai": "^4.48.3",

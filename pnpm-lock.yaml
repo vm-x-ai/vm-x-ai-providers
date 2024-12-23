@@ -21,8 +21,8 @@ dependencies:
     specifier: ^10.3.9
     version: 10.3.9(reflect-metadata@0.2.2)(rxjs@7.8.1)
   '@vm-x-ai/completion-provider':
-    specifier: 0.11.0
-    version: 0.11.0(@nestjs/core@10.3.9)(reflect-metadata@0.2.2)
+    specifier: 0.11.3
+    version: 0.11.3(@nestjs/core@10.3.9)(reflect-metadata@0.2.2)
   groq-sdk:
     specifier: ^0.7.0
     version: 0.7.0
@@ -6134,8 +6134,8 @@ packages:
       protobufjs: 7.3.0
     dev: true
 
-  /@vm-x-ai/completion-client@1.4.0:
-    resolution: {integrity: sha512-EGo6HCtXTOFvfthUTMzLZKbjEl1M0Si6bbaUnWu2503hT97C2A53ZssbrViYAUP51VXfVjdyKerjkw8dIbULbA==}
+  /@vm-x-ai/completion-client@1.6.0:
+    resolution: {integrity: sha512-m8fMqb5Xqdp6xVxnvg1DY/P+dWtvGKiSzokdNS+Zhp7Gx+w6eu+mPmndNLBJWiNeFJbMVkWqF2VUy6VMrkQcSw==}
     dependencies:
       '@grpc/grpc-js': 1.10.8
       long: 5.2.3
@@ -6175,8 +6175,8 @@ packages:
       - verdaccio
     dev: true
 
-  /@vm-x-ai/completion-provider@0.11.0(@nestjs/core@10.3.9)(reflect-metadata@0.2.2):
-    resolution: {integrity: sha512-FBVV9Mq8G/0s/rB2J1PiiqjJ4poaizO5K2skgwtfdpFTdcfs2MqTCmSnb4inSLuNj6s6VWrZb58q/QJdwe4Rqg==}
+  /@vm-x-ai/completion-provider@0.11.3(@nestjs/core@10.3.9)(reflect-metadata@0.2.2):
+    resolution: {integrity: sha512-2KVOzQVObk5wtsww466SpgzmiRPsme/wnYfuuptvODK/+xRJH+5g/JtiGdQfyOaaWr+UWdGn1Cwj423alivJWg==}
     hasBin: true
     dependencies:
       '@grpc/grpc-js': 1.10.8
@@ -6184,7 +6184,7 @@ packages:
       '@nestjs/common': 10.3.9(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/microservices': 10.3.9(@grpc/grpc-js@1.10.8)(@nestjs/common@10.3.9)(@nestjs/core@10.3.9)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@rollup/plugin-esm-shim': 0.1.7
-      '@vm-x-ai/completion-client': 1.4.0
+      '@vm-x-ai/completion-client': 1.6.0
       archiver: 7.0.1
       axios: 1.7.2
       chalk: 4.1.2
