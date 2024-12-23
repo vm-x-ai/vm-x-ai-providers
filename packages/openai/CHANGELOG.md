@@ -1,10 +1,20 @@
+## 1.9.0 (2024-12-23)
+
+### 🚀 Features
+
+- add new model options to OpenAI manifest ([d926f60](https://github.com/vm-x-ai/vm-x-ai-providers/commit/d926f60))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 1.8.0 (2024-12-20)
 
 ### 🚀 Features
 
 - add GitHub Actions workflow for publishing all production ([8a63141](https://github.com/vm-x-ai/vm-x-ai-providers/commit/8a63141))
 
-### ❤️  Thank You
+### ❤️ Thank You
 
 - Lucas Vieira @lucasvieirasilva
 
