@@ -1,3 +1,13 @@
+## 0.3.1 (2024-12-26)
+
+### 🩹 Fixes
+
+- update @vm-x-ai/completion-provider to version 0.12.3 ([6be2e60](https://github.com/vm-x-ai/vm-x-ai-providers/commit/6be2e60))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 0.3.0 (2024-12-26)
 
 ### 🚀 Features
