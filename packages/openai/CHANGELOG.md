@@ -1,3 +1,13 @@
+## 1.10.0 (2024-12-26)
+
+### 🚀 Features
+
+- add link button for creating IAM Role using CloudFormation in Amazon Bedrock manifest ([06c5f8a](https://github.com/vm-x-ai/vm-x-ai-providers/commit/06c5f8a))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 1.9.1 (2024-12-23)
 
 ### 🩹 Fixes
