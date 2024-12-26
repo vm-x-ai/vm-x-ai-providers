@@ -21,8 +21,8 @@ dependencies:
     specifier: ^10.3.9
     version: 10.3.9(reflect-metadata@0.2.2)(rxjs@7.8.1)
   '@vm-x-ai/completion-provider':
-    specifier: 0.11.3
-    version: 0.11.3(@nestjs/core@10.3.9)(reflect-metadata@0.2.2)
+    specifier: 0.12.1
+    version: 0.12.1(@nestjs/core@10.3.9)(reflect-metadata@0.2.2)
   groq-sdk:
     specifier: ^0.7.0
     version: 0.7.0
@@ -6175,8 +6175,8 @@ packages:
       - verdaccio
     dev: true
 
-  /@vm-x-ai/completion-provider@0.11.3(@nestjs/core@10.3.9)(reflect-metadata@0.2.2):
-    resolution: {integrity: sha512-2KVOzQVObk5wtsww466SpgzmiRPsme/wnYfuuptvODK/+xRJH+5g/JtiGdQfyOaaWr+UWdGn1Cwj423alivJWg==}
+  /@vm-x-ai/completion-provider@0.12.1(@nestjs/core@10.3.9)(reflect-metadata@0.2.2):
+    resolution: {integrity: sha512-MbCYLbIPnerQW1W3B15bSXJouxfuOVh1KnenK491YVpPOlcYlx/2eH2qG8ROHLwnYfI7+O0UOIpVdhBc8/SiAA==}
     hasBin: true
     dependencies:
       '@grpc/grpc-js': 1.10.8
