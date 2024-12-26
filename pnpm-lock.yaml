@@ -21,8 +21,8 @@ dependencies:
     specifier: ^10.3.9
     version: 10.3.9(reflect-metadata@0.2.2)(rxjs@7.8.1)
   '@vm-x-ai/completion-provider':
-    specifier: 0.12.1
-    version: 0.12.1(@nestjs/core@10.3.9)(reflect-metadata@0.2.2)
+    specifier: 0.12.3
+    version: 0.12.3(@nestjs/core@10.3.9)(reflect-metadata@0.2.2)
   groq-sdk:
     specifier: ^0.7.0
     version: 0.7.0
@@ -134,8 +134,8 @@ devDependencies:
     specifier: ^1.3.1
     version: 1.6.0(vitest@1.6.0)
   '@vm-x-ai/completion-provider-nx':
-    specifier: ^0.3.5
-    version: 0.3.5(@nestjs/core@10.3.9)(@swc-node/register@1.9.1)(@swc/core@1.5.25)(@types/node@20.14.2)(nx@20.0.3)(reflect-metadata@0.2.2)(typescript@5.5.4)
+    specifier: ^0.4.7
+    version: 0.4.7(@nestjs/core@10.3.9)(@swc-node/register@1.9.1)(@swc/core@1.5.25)(@types/node@20.14.2)(nx@20.0.3)(reflect-metadata@0.2.2)(typescript@5.5.4)
   commitizen:
     specifier: 4.2.4
     version: 4.2.4(@types/node@20.14.2)(typescript@5.5.4)
@@ -6126,29 +6126,20 @@ packages:
       pretty-format: 29.7.0
     dev: true
 
-  /@vm-x-ai/completion-client@1.3.1:
-    resolution: {integrity: sha512-t1PdtGv0xNN3aMwHbX4SgyeIAciVLvv/hwK0ywsG1eOaICAQ8iZaaDw2aXflgt08/A+xPwyubJ3oAOhnC1BQmQ==}
-    dependencies:
-      '@grpc/grpc-js': 1.10.8
-      long: 5.2.3
-      protobufjs: 7.3.0
-    dev: true
-
   /@vm-x-ai/completion-client@1.6.0:
     resolution: {integrity: sha512-m8fMqb5Xqdp6xVxnvg1DY/P+dWtvGKiSzokdNS+Zhp7Gx+w6eu+mPmndNLBJWiNeFJbMVkWqF2VUy6VMrkQcSw==}
     dependencies:
       '@grpc/grpc-js': 1.10.8
       long: 5.2.3
       protobufjs: 7.3.0
-    dev: false
 
-  /@vm-x-ai/completion-provider-nx@0.3.5(@nestjs/core@10.3.9)(@swc-node/register@1.9.1)(@swc/core@1.5.25)(@types/node@20.14.2)(nx@20.0.3)(reflect-metadata@0.2.2)(typescript@5.5.4):
-    resolution: {integrity: sha512-s+hy8QV5L5d5wvzwuATLJagTK6qzPteegm+7h0iq2DM0hViIMQv+c6omS4FwfJxTjXhEAOUfIrjaH9DaV2KvmQ==}
+  /@vm-x-ai/completion-provider-nx@0.4.7(@nestjs/core@10.3.9)(@swc-node/register@1.9.1)(@swc/core@1.5.25)(@types/node@20.14.2)(nx@20.0.3)(reflect-metadata@0.2.2)(typescript@5.5.4):
+    resolution: {integrity: sha512-BH10KBwYwW8wwqyqpuQg5Ponh0lsfp40HNH1L1zCket2R2CDlZvIFXUkFoO1RR9sB0P3H474WOK7kGuJNAczsQ==}
     dependencies:
       '@nx/devkit': 20.0.3(nx@20.0.3)
       '@nx/js': 20.0.3(@swc-node/register@1.9.1)(@swc/core@1.5.25)(@types/node@20.14.2)(nx@20.0.3)(typescript@5.5.4)
       '@swc/helpers': 0.5.11
-      '@vm-x-ai/completion-provider': 0.9.0(@nestjs/core@10.3.9)(reflect-metadata@0.2.2)
+      '@vm-x-ai/completion-provider': 0.12.3(@nestjs/core@10.3.9)(reflect-metadata@0.2.2)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@nestjs/core'
@@ -6175,8 +6166,8 @@ packages:
       - verdaccio
     dev: true
 
-  /@vm-x-ai/completion-provider@0.12.1(@nestjs/core@10.3.9)(reflect-metadata@0.2.2):
-    resolution: {integrity: sha512-MbCYLbIPnerQW1W3B15bSXJouxfuOVh1KnenK491YVpPOlcYlx/2eH2qG8ROHLwnYfI7+O0UOIpVdhBc8/SiAA==}
+  /@vm-x-ai/completion-provider@0.12.3(@nestjs/core@10.3.9)(reflect-metadata@0.2.2):
+    resolution: {integrity: sha512-s/DhFJS242WhO+e/Cikg5jlS3iiCwUuN2FCcmABCPOlzuqTK9kvziQNYFWUpYO+zLsV9y7QR8ImNvbz5gI/E+Q==}
     hasBin: true
     dependencies:
       '@grpc/grpc-js': 1.10.8
@@ -6218,52 +6209,6 @@ packages:
       - nats
       - reflect-metadata
       - rollup
-    dev: false
-
-  /@vm-x-ai/completion-provider@0.9.0(@nestjs/core@10.3.9)(reflect-metadata@0.2.2):
-    resolution: {integrity: sha512-9DHIg6aRJhMalbbW57XU5lc+GmQkH8s2xnhQfyZWRuxncQergbHjwU6lIdpFDjkKsKbRrCDmKMjuweLfKD+OOw==}
-    hasBin: true
-    dependencies:
-      '@grpc/grpc-js': 1.10.8
-      '@inquirer/prompts': 5.5.0
-      '@nestjs/common': 10.3.9(reflect-metadata@0.2.2)(rxjs@7.8.1)
-      '@nestjs/microservices': 10.3.9(@grpc/grpc-js@1.10.8)(@nestjs/common@10.3.9)(@nestjs/core@10.3.9)(reflect-metadata@0.2.2)(rxjs@7.8.1)
-      '@rollup/plugin-esm-shim': 0.1.7
-      '@vm-x-ai/completion-client': 1.3.1
-      archiver: 7.0.1
-      axios: 1.7.2
-      chalk: 4.1.2
-      cli-progress: 3.12.0
-      dotenv: 16.4.5
-      ejs: 3.1.10
-      enquirer: 2.4.1
-      esbuild: 0.24.0
-      js-tiktoken: 1.0.15
-      js-yaml: 4.1.0
-      json-schema: 0.4.0
-      mime-types: 2.1.35
-      pino: 9.5.0
-      pino-pretty: 11.3.0
-      rxjs: 7.8.1
-      uuid: 10.0.0
-      yargs: 17.7.2
-      zod: 3.23.8
-    transitivePeerDependencies:
-      - '@nestjs/core'
-      - '@nestjs/websockets'
-      - amqp-connection-manager
-      - amqplib
-      - cache-manager
-      - class-transformer
-      - class-validator
-      - debug
-      - ioredis
-      - kafkajs
-      - mqtt
-      - nats
-      - reflect-metadata
-      - rollup
-    dev: true
 
   /@yarnpkg/lockfile@1.1.0:
     resolution: {integrity: sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==}
