@@ -1,3 +1,13 @@
+## 1.11.0 (2025-01-02)
+
+### 🚀 Features
+
+- enhance CloudFormation link for IAM Role creation with dynamic region and helper text ([6120801](https://github.com/vm-x-ai/vm-x-ai-providers/commit/6120801))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 1.10.1 (2024-12-26)
 
 ### 🩹 Fixes
