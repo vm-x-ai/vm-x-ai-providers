@@ -6,3 +6,4 @@
 pnpm-lock.yaml
 
 /.nx/workspace-data
+/packages/amazon-bedrock/manifest.yaml

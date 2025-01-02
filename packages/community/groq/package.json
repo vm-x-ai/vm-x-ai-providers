@@ -3,7 +3,7 @@
   "version": "0.5.1",
   "dependencies": {
     "@nestjs/common": "^10.3.9",
-    "@vm-x-ai/completion-provider": "0.12.3",
+    "@vm-x-ai/completion-provider": "0.13.0",
     "esbuild-plugin-tsc": "^0.4.0",
     "nestjs-otel": "6.1.1",
     "rxjs": "^7.8.1",
