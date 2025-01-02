@@ -1,3 +1,13 @@
+## 1.11.1 (2025-01-02)
+
+### 🩹 Fixes
+
+- update helper text for CloudFormation role creation instructions ([91b1a9b](https://github.com/vm-x-ai/vm-x-ai-providers/commit/91b1a9b))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 1.11.0 (2025-01-02)
 
 ### 🚀 Features
