@@ -1,3 +1,13 @@
+## 1.10.2 (2025-01-03)
+
+### 🩹 Fixes
+
+- reorder GPT model entries in manifest.yaml for clarity ([f6f62fa](https://github.com/vm-x-ai/vm-x-ai-providers/commit/f6f62fa))
+
+### ❤️  Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 1.10.1 (2024-12-26)
 
 ### 🩹 Fixes
