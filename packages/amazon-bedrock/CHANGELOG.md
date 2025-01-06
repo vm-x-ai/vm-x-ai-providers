@@ -1,3 +1,17 @@
+# 2.0.0 (2025-01-06)
+
+### 🚀 Features
+
+- ⚠️  migrate amazon bedrock invoke to converse api ([e0f917d](https://github.com/vm-x-ai/vm-x-ai-providers/commit/e0f917d))
+
+### ⚠️  Breaking Changes
+
+- ⚠️  migrate amazon bedrock invoke to converse api ([e0f917d](https://github.com/vm-x-ai/vm-x-ai-providers/commit/e0f917d))
+
+### ❤️  Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 1.11.1 (2025-01-02)
 
 ### 🩹 Fixes
