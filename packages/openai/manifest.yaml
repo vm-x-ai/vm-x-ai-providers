@@ -26,6 +26,7 @@ config:
           format: secret
           title: OpenAI API Key
           placeholder: e.g. sk-1234567890abcdef1234567890abcdef
+          description: 'Go to [OpenAI Platform](https://platform.openai.com/settings/organization/api-keys) to create a OpenAI API Key, e.g. sk-123..........'
       errorMessage:
         required:
           apiKey: API Key is required

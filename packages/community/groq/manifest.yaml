@@ -25,7 +25,7 @@ config:
           type: string
           format: secret
           title: Groq API Key
-          description: 'e.g. gsk_..........'
+          description: 'Go to [Groq Dev Console](https://console.groq.com/keys) to create a Groq API Key, e.g. gsk_..........'
       errorMessage:
         required:
           apiKey: API Key is required

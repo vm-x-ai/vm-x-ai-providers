@@ -25,7 +25,7 @@ config:
           type: string
           format: secret
           title: Anthropic API Key
-          description: 'e.g. sk-ant-api..........'
+          description: 'Go to [Anthropic Console](https://console.anthropic.com/settings/keys) to create a Anthropic API Key, e.g. sk-ant-api..........'
       errorMessage:
         required:
           apiKey: API Key is required
