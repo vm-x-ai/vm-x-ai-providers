@@ -1,3 +1,13 @@
+## 1.11.0 (2025-01-15)
+
+### 🚀 Features
+
+- update API key descriptions in manifest files with console links ([677ae24](https://github.com/vm-x-ai/vm-x-ai-providers/commit/677ae24))
+
+### ❤️  Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 1.10.2 (2025-01-03)
 
 ### 🩹 Fixes

@@ -1,6 +1,6 @@
 {
   "name": "@vm-x-ai/anthropic",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "dependencies": {
     "esbuild-plugin-tsc": "^0.4.0",
     "@anthropic-ai/sdk": "^0.32.1",
