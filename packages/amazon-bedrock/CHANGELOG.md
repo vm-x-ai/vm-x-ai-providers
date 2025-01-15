@@ -1,3 +1,13 @@
+## 2.0.1 (2025-01-15)
+
+### 🩹 Fixes
+
+- handle empty connection name ([d72ec3b](https://github.com/vm-x-ai/vm-x-ai-providers/commit/d72ec3b))
+
+### ❤️  Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 # 2.0.0 (2025-01-06)
 
 ### 🚀 Features

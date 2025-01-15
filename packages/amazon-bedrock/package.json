@@ -1,6 +1,6 @@
 {
   "name": "@vm-x-ai/providers-amazon-bedrock",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "dependencies": {
     "@nestjs/common": "^10.3.9",
     "nestjs-otel": "^6.1.1",
