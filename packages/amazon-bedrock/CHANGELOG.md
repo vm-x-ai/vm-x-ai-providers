@@ -1,10 +1,20 @@
+## 2.0.2 (2025-01-15)
+
+### 🩹 Fixes
+
+- format URL in manifest.yaml ([6f77d76](https://github.com/vm-x-ai/vm-x-ai-providers/commit/6f77d76))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 2.0.1 (2025-01-15)
 
 ### 🩹 Fixes
 
 - handle empty connection name ([d72ec3b](https://github.com/vm-x-ai/vm-x-ai-providers/commit/d72ec3b))
 
-### ❤️  Thank You
+### ❤️ Thank You
 
 - Lucas Vieira @lucasvieirasilva
 
@@ -12,13 +22,13 @@
 
 ### 🚀 Features
 
-- ⚠️  migrate amazon bedrock invoke to converse api ([e0f917d](https://github.com/vm-x-ai/vm-x-ai-providers/commit/e0f917d))
+- ⚠️ migrate amazon bedrock invoke to converse api ([e0f917d](https://github.com/vm-x-ai/vm-x-ai-providers/commit/e0f917d))
 
-### ⚠️  Breaking Changes
+### ⚠️ Breaking Changes
 
-- ⚠️  migrate amazon bedrock invoke to converse api ([e0f917d](https://github.com/vm-x-ai/vm-x-ai-providers/commit/e0f917d))
+- ⚠️ migrate amazon bedrock invoke to converse api ([e0f917d](https://github.com/vm-x-ai/vm-x-ai-providers/commit/e0f917d))
 
-### ❤️  Thank You
+### ❤️ Thank You
 
 - Lucas Vieira @lucasvieirasilva
 
