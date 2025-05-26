@@ -246,7 +246,7 @@ export class OpenAILLMProvider extends BaseCompletionProvider<OpenAI> implements
         (msg.toolCalls || []).length > 0
           ? (msg.toolCalls || [])
               .map<ChatCompletionMessageToolCall | null>((toolCall) => {
-                if (!toolCall.function?.name || toolCall.function?.arguments) {
+                if (!toolCall.function?.name || !toolCall.function?.arguments) {
                   return null;
                 }
 

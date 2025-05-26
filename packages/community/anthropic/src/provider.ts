@@ -215,7 +215,7 @@ export class AnthropicLLMProvider extends BaseCompletionProvider<Anthropic> impl
         (msg.toolCalls || []).length > 0
           ? (msg.toolCalls || [])
               .map((toolCall) => {
-                if (!toolCall.function?.name || toolCall.function?.arguments) {
+                if (!toolCall.function?.name || !toolCall.function?.arguments) {
                   return null;
                 }
 
