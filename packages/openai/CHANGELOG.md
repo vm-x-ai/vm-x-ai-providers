@@ -1,3 +1,13 @@
+## 1.11.1 (2025-05-26)
+
+### 🩹 Fixes
+
+- correct condition for toolCall arguments validation in multiple providers ([3c0543f](https://github.com/vm-x-ai/vm-x-ai-providers/commit/3c0543f))
+
+### ❤️  Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 1.11.0 (2025-01-15)
 
 ### 🚀 Features
