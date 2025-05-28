@@ -1,10 +1,20 @@
+## 1.12.0 (2025-05-28)
+
+### 🚀 Features
+
+- add new models GPT-4.1 mini and GPT-4.1 to openai manifest ([f6e19e6](https://github.com/vm-x-ai/vm-x-ai-providers/commit/f6e19e6))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 1.11.1 (2025-05-26)
 
 ### 🩹 Fixes
 
 - correct condition for toolCall arguments validation in multiple providers ([3c0543f](https://github.com/vm-x-ai/vm-x-ai-providers/commit/3c0543f))
 
-### ❤️  Thank You
+### ❤️ Thank You
 
 - Lucas Vieira @lucasvieirasilva
 
@@ -14,7 +24,7 @@
 
 - update API key descriptions in manifest files with console links ([677ae24](https://github.com/vm-x-ai/vm-x-ai-providers/commit/677ae24))
 
-### ❤️  Thank You
+### ❤️ Thank You
 
 - Lucas Vieira @lucasvieirasilva
 
@@ -24,7 +34,7 @@
 
 - reorder GPT model entries in manifest.yaml for clarity ([f6f62fa](https://github.com/vm-x-ai/vm-x-ai-providers/commit/f6f62fa))
 
-### ❤️  Thank You
+### ❤️ Thank You
 
 - Lucas Vieira @lucasvieirasilva
 
