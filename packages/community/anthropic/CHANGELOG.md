@@ -1,3 +1,13 @@
+## 0.6.0 (2025-08-18)
+
+### 🚀 Features
+
+- add new claude opus, sonnet models ([0d0056c](https://github.com/vm-x-ai/vm-x-ai-providers/commit/0d0056c))
+
+### ❤️  Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 0.5.1 (2025-05-26)
 
 ### 🩹 Fixes
