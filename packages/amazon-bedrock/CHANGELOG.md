@@ -1,3 +1,17 @@
+## 2.1.0 (2025-09-01)
+
+### 🚀 Features
+
+- add rate limit methods to all ai providers ([3c8ee9a](https://github.com/vm-x-ai/vm-x-ai-providers/commit/3c8ee9a))
+
+### 🩹 Fixes
+
+- add service quota permission to bedrock manifest ([46f530a](https://github.com/vm-x-ai/vm-x-ai-providers/commit/46f530a))
+
+### ❤️  Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 2.0.2 (2025-01-15)
 
 ### 🩹 Fixes

@@ -1,10 +1,24 @@
+## 0.7.0 (2025-09-01)
+
+### 🚀 Features
+
+- add rate limit methods to all ai providers ([3c8ee9a](https://github.com/vm-x-ai/vm-x-ai-providers/commit/3c8ee9a))
+
+### 🩹 Fixes
+
+- add service quota permission to bedrock manifest ([46f530a](https://github.com/vm-x-ai/vm-x-ai-providers/commit/46f530a))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 0.6.0 (2025-08-18)
 
 ### 🚀 Features
 
 - add new claude opus, sonnet models ([0d0056c](https://github.com/vm-x-ai/vm-x-ai-providers/commit/0d0056c))
 
-### ❤️  Thank You
+### ❤️ Thank You
 
 - Lucas Vieira @lucasvieirasilva
 
@@ -14,7 +28,7 @@
 
 - correct condition for toolCall arguments validation in multiple providers ([3c0543f](https://github.com/vm-x-ai/vm-x-ai-providers/commit/3c0543f))
 
-### ❤️  Thank You
+### ❤️ Thank You
 
 - Lucas Vieira @lucasvieirasilva
 
@@ -24,7 +38,7 @@
 
 - update API key descriptions in manifest files with console links ([677ae24](https://github.com/vm-x-ai/vm-x-ai-providers/commit/677ae24))
 
-### ❤️  Thank You
+### ❤️ Thank You
 
 - Lucas Vieira @lucasvieirasilva
 
