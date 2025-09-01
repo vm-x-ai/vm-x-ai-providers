@@ -1,3 +1,13 @@
+## 0.9.0 (2025-09-01)
+
+### 🚀 Features
+
+- remove Whisper models from groq manifest ([50708b1](https://github.com/vm-x-ai/vm-x-ai-providers/commit/50708b1))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 0.8.0 (2025-09-01)
 
 ### 🚀 Features
