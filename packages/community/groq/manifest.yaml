@@ -38,29 +38,32 @@ config:
 
   # List of supported models
   models:
-    - label: 'LLama3 (8b-8192)'
-      value: llama3-8b-8192
-    - label: 'Gemma2 (9b-it)'
-      value: gemma2-9b-it
-    - label: 'Llama3 Groq (70b-8192 tool-use preview)'
-      value: llama3-groq-70b-8192-tool-use-preview
-    - label: 'Llama3 Groq (8b-8192 tool-use preview)'
-      value: llama3-groq-8b-8192-tool-use-preview
-    - label: 'Llama 3.1 (70b-versatile)'
-      value: llama-3.1-70b-versatile
+    # Meta
     - label: 'Llama 3.1 (8b-instant)'
       value: llama-3.1-8b-instant
-    - label: 'Llama 3.2 (1b-preview)'
-      value: llama-3.2-1b-preview
-    - label: 'Llama 3.2 (3b-preview)'
-      value: llama-3.2-3b-preview
-    - label: 'Llama Guard 3 (8b)'
-      value: llama-guard-3-8b
-    - label: 'Llama3 (70b-8192)'
-      value: llama3-70b-8192
-    - label: 'Mixtral (8x7b-32768)'
-      value: mixtral-8x7b-32768
-    # - label: 'Llama 3.2 (11b-vision-preview)'
-    #   value: llama-3.2-11b-vision-preview
-    # - label: 'Llama 3.2 (90b-vision-preview)'
-    #   value: llama-3.2-90b-vision-preview
+    - label: 'Llama 3.3 (70b-versatile)'
+      value: llama-3.3-70b-versatile
+    - label: 'Llama Guard 4 (12b)'
+      value: meta-llama/llama-guard-4-12b
+    - label: 'Llama 4 Maverick (17b-128e-instruct)'
+      value: meta-llama/llama-4-maverick-17b-128e-instruct
+    - label: 'Llama 4 Scout (17b-16e-instruct)'
+      value: meta-llama/llama-4-scout-17b-16e-instruct
+    - label: 'Llama Prompt Guard 2 (22m)'
+      value: meta-llama/llama-prompt-guard-2-22m
+    - label: 'Llama Prompt Guard 2 (86m)'
+      value: meta-llama/llama-prompt-guard-2-86m
+
+    # OpenAI
+    - label: 'GPT-OSS 120B'
+      value: openai/gpt-oss-120b
+    - label: 'GPT-OSS 20B'
+      value: openai/gpt-oss-20b
+    - label: 'Whisper Large V3'
+      value: whisper-large-v3
+    - label: 'Whisper Large V3 Turbo'
+      value: whisper-large-v3-turbo
+
+    # Google
+    - label: 'Gemma2 (9b-it)'
+      value: gemma2-9b-it
