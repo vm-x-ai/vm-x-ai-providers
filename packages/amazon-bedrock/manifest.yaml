@@ -115,6 +115,7 @@ config:
                   {
                     "Effect": "Allow",
                     "Action": [
+                      "servicequotas:GetServiceQuota",
                       "bedrock:InvokeModel",
                       "bedrock:InvokeModelWithResponseStream"
                     ],
