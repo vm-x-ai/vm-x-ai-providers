@@ -1,3 +1,13 @@
+## 0.8.0 (2025-09-01)
+
+### 🚀 Features
+
+- remove decomissioned groq models ([81bae72](https://github.com/vm-x-ai/vm-x-ai-providers/commit/81bae72))
+
+### ❤️ Thank You
+
+- Lucas Vieira @lucasvieirasilva
+
 ## 0.7.0 (2025-09-01)
 
 ### 🚀 Features
@@ -8,7 +18,7 @@
 
 - add service quota permission to bedrock manifest ([46f530a](https://github.com/vm-x-ai/vm-x-ai-providers/commit/46f530a))
 
-### ❤️  Thank You
+### ❤️ Thank You
 
 - Lucas Vieira @lucasvieirasilva
 
@@ -18,7 +28,7 @@
 
 - update API key descriptions in manifest files with console links ([677ae24](https://github.com/vm-x-ai/vm-x-ai-providers/commit/677ae24))
 
-### ❤️  Thank You
+### ❤️ Thank You
 
 - Lucas Vieira @lucasvieirasilva
 
