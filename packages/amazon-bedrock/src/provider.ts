@@ -11,6 +11,7 @@ import {
   ToolChoice,
   ToolInputSchema,
 } from '@aws-sdk/client-bedrock-runtime';
+import { ServiceQuotasClient, GetServiceQuotaCommand } from '@aws-sdk/client-service-quotas';
 import { fromTemporaryCredentials } from '@aws-sdk/credential-providers';
 import { status } from '@grpc/grpc-js';
 import { HttpStatus, Logger } from '@nestjs/common';
@@ -29,6 +30,7 @@ import {
   RequestMessageToolCall,
   CompletionRpcException,
   CompletionUsage,
+  AIProviderRateLimit,
 } from '@vm-x-ai/completion-provider';
 import { Span } from 'nestjs-otel';
 import { Subject } from 'rxjs';
@@ -56,6 +58,59 @@ const stopReasonMap: Record<StopReason, string> = {
 export class AmazonBedrockProvider extends BaseCompletionProvider<BedrockRuntimeClient> implements ICompletionProvider {
   constructor(logger: Logger, provider: AIProviderConfig) {
     super(logger, provider);
+  }
+
+  @Span('AmazonBedrockProvider.getRateLimit')
+  async getRateLimit(
+    connection: AIConnection<AmazonBedrockAIConnectionConfig>,
+    modelConfig: ResourceModelConfig,
+  ): Promise<AIProviderRateLimit[] | null> {
+    const serviceQuotasClient = connection.config
+      ? new ServiceQuotasClient({
+          region: connection.config.region,
+          credentials: await this.getAwsSdkCredentials(connection),
+        })
+      : new ServiceQuotasClient({});
+
+    const model = this.provider.config.models.find((model) => model.value === modelConfig.model);
+    if (!model) {
+      this.logger.warn({ model: modelConfig.model }, 'Model not found in provider config');
+      return null;
+    }
+
+    if (!model.metadata?.requestsPerMinuteQuotaCode || !model.metadata?.tokensPerMinuteQuotaCode) {
+      this.logger.warn({ model: modelConfig.model }, 'Model does not have rate limit metadata');
+      return null;
+    }
+
+    const [requestsPerMinuteQuota, tokensPerMinuteQuota] = await Promise.all([
+      serviceQuotasClient.send(
+        new GetServiceQuotaCommand({
+          ServiceCode: 'bedrock',
+          QuotaCode: model.metadata.requestsPerMinuteQuotaCode as string,
+        }),
+      ),
+      serviceQuotasClient.send(
+        new GetServiceQuotaCommand({
+          ServiceCode: 'bedrock',
+          QuotaCode: model.metadata.tokensPerMinuteQuotaCode as string,
+        }),
+      ),
+    ]);
+
+    if (!requestsPerMinuteQuota.Quota?.Value || !tokensPerMinuteQuota.Quota?.Value) {
+      this.logger.warn({ model: modelConfig.model }, 'Service Quotas client returned null values');
+      return null;
+    }
+
+    return [
+      {
+        model: modelConfig.model,
+        requests: requestsPerMinuteQuota.Quota.Value,
+        tokens: tokensPerMinuteQuota.Quota.Value,
+        period: 'minute',
+      },
+    ];
   }
 
   protected override initializeTokenCounterModels(): void {
@@ -242,7 +297,7 @@ export class AmazonBedrockProvider extends BaseCompletionProvider<BedrockRuntime
       const messageContent = result.output?.message?.content?.[0].text ?? '';
       const toolCalls =
         result.stopReason === StopReason.TOOL_USE
-          ? result.output?.message?.content
+          ? (result.output?.message?.content
               ?.filter((msg): msg is ContentBlock.ToolUseMember => !!msg.toolUse)
               .map<RequestMessageToolCall>((msg) => ({
                 id: msg.toolUse.toolUseId ?? uuid(),
@@ -252,7 +307,7 @@ export class AmazonBedrockProvider extends BaseCompletionProvider<BedrockRuntime
                   arguments:
                     typeof msg.toolUse.input === 'object' ? JSON.stringify(msg.toolUse.input) : `${msg.toolUse?.input}`,
                 },
-              })) ?? []
+              })) ?? [])
           : [];
 
       const usage = this.generateCompletionUsage(result.usage, model, request, messageContent, toolCalls);
@@ -404,37 +459,7 @@ export class AmazonBedrockProvider extends BaseCompletionProvider<BedrockRuntime
     connection: AIConnection<AmazonBedrockAIConnectionConfig>,
   ): Promise<BedrockRuntimeClient> {
     if (connection.config) {
-      this.logger.log(
-        {
-          roleArn: connection.config.iamRoleArn,
-        },
-        'Using custom IAM role for Bedrock client',
-      );
-
-      const cacheKey = connection.config.iamRoleArn;
-      if (cachedProviders.has(cacheKey)) {
-        this.logger.log(
-          {
-            roleArn: connection.config.iamRoleArn,
-          },
-          'Using cached IAM role credentials provider for Bedrock client',
-        );
-        return new BedrockRuntimeClient({
-          region: connection.config.region,
-          credentials: cachedProviders.get(cacheKey),
-        });
-      }
-
-      const credentials = fromTemporaryCredentials({
-        params: {
-          RoleArn: connection.config.iamRoleArn,
-          RoleSessionName: 'vm-x-server-cross-account-session',
-          ExternalId: connection.workspaceEnvironmentId,
-        },
-      });
-
-      cachedProviders.set(cacheKey, credentials);
-
+      const credentials = await this.getAwsSdkCredentials(connection);
       return new BedrockRuntimeClient({
         region: connection.config.region,
         credentials,
@@ -442,5 +467,43 @@ export class AmazonBedrockProvider extends BaseCompletionProvider<BedrockRuntime
     }
 
     return new BedrockRuntimeClient({});
+  }
+
+  protected async getAwsSdkCredentials(
+    connection: AIConnection<AmazonBedrockAIConnectionConfig>,
+  ): Promise<AwsCredentialIdentityProvider | undefined> {
+    if (!connection.config) {
+      return undefined;
+    }
+
+    this.logger.log(
+      {
+        roleArn: connection.config.iamRoleArn,
+      },
+      'Using custom IAM role for Bedrock client',
+    );
+
+    const cacheKey = connection.config.iamRoleArn;
+    if (cachedProviders.has(cacheKey)) {
+      this.logger.log(
+        {
+          roleArn: connection.config.iamRoleArn,
+        },
+        'Using cached IAM role credentials provider for Bedrock client',
+      );
+      return cachedProviders.get(cacheKey);
+    }
+
+    const credentials = fromTemporaryCredentials({
+      params: {
+        RoleArn: connection.config.iamRoleArn,
+        RoleSessionName: 'vm-x-server-cross-account-session',
+        ExternalId: connection.workspaceEnvironmentId,
+      },
+    });
+
+    cachedProviders.set(cacheKey, credentials);
+
+    return credentials;
   }
 }

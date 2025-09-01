@@ -8,3 +8,5 @@ jobs:
     name: Checks
     uses: vm-x-ai/github-public-actions/.github/workflows/workflow-pull-request.yml@main
     secrets: inherit
+    with:
+      pnpm-version: 10

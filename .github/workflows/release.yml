@@ -19,6 +19,7 @@ jobs:
     with:
       specifier: ${{ inputs.specifier }}
       publish: false
+      pnpm-version: 10
 
   dispatch:
     needs: [release]

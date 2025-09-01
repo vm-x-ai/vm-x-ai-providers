@@ -26,6 +26,8 @@ jobs:
         with:
           fetch-depth: 0
       - uses: vm-x-ai/github-public-actions/.github/actions/setup-monorepo@main
+        with:
+          pnpm-version: 10
       - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:

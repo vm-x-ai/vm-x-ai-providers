@@ -8,6 +8,7 @@ import type {
   AIConnection,
   TokenMessage,
   AIProviderConfig,
+  AIProviderRateLimit,
 } from '@vm-x-ai/completion-provider';
 import { BaseCompletionProvider } from '@vm-x-ai/completion-provider';
 import { TokenCounter } from '@vm-x-ai/completion-provider';
@@ -22,6 +23,12 @@ export class DummyLLMProvider extends BaseCompletionProvider<object> implements 
 
   getModel(request: CompletionRequest): string {
     return request.config?.model ?? 'unknown';
+  }
+
+  @Span('Dummy.getRateLimit')
+  async getRateLimit(): Promise<AIProviderRateLimit[] | null> {
+    this.logger.log('Can not get rate limit, not supported');
+    return null;
   }
 
   @Span('Dummy.getMaxReplyTokens')

@@ -143,26 +143,41 @@ config:
       logo:
         src: ./assets/logos/ai21labs.png
       value: ai21.jamba-1-5-large-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-F4CAA0FD
+        tokensPerMinuteQuotaCode: L-CFAB19FF
 
     - label: Jamba 1.5 Mini
       logo:
         src: ./assets/logos/ai21labs.png
       value: ai21.jamba-1-5-mini-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-0449ADC5
+        tokensPerMinuteQuotaCode: L-5A778346
 
     - label: Jamba-Instruct
       logo:
         src: ./assets/logos/ai21labs.png
       value: ai21.jamba-instruct-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-40063291
+        tokensPerMinuteQuotaCode: L-46D2582A
 
     - label: Jurassic-2 Ultra
       logo:
         src: ./assets/logos/ai21labs.png
       value: ai21.j2-ultra-v1
+      metadata:
+        requestsPerMinuteQuotaCode: L-A48E31B4
+        tokensPerMinuteQuotaCode: L-A4F5E139
 
     - label: Jurassic-2 Mid
       logo:
         src: ./assets/logos/ai21labs.png
       value: ai21.j2-mid-v1
+      metadata:
+        requestsPerMinuteQuotaCode: L-75D9A33A
+        tokensPerMinuteQuotaCode: L-ABEE1010
 
     # Amazon
     - label: Titan Text G1 - Lite
@@ -184,52 +199,82 @@ config:
       logo:
         src: ./assets/logos/amazon.png
       value: amazon.nova-pro-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-F2717A44
+        tokensPerMinuteQuotaCode: L-CE33604C
 
     - label: Nova Lite
       logo:
         src: ./assets/logos/amazon.png
       value: amazon.nova-lite-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-E386A278
+        tokensPerMinuteQuotaCode: L-70423BF8
 
     - label: Nova Micro
       logo:
         src: ./assets/logos/amazon.png
       value: amazon.nova-micro-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-E118F160
+        tokensPerMinuteQuotaCode: L-CFA4FA0D
 
     # Anthropic
     - label: Claude 3.5 Haiku
       logo:
         src: ./assets/logos/anthropic-640x640.png
       value: us.anthropic.claude-3-5-haiku-20241022-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-252DF594
+        tokensPerMinuteQuotaCode: L-4BF37C17
 
     - label: Claude 3.5 Sonnet v2
       logo:
         src: ./assets/logos/anthropic-640x640.png
       value: us.anthropic.claude-3-5-sonnet-20241022-v2:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-1D3E59A3
+        tokensPerMinuteQuotaCode: L-FF8B4E28
 
     - label: Claude 3.5 Sonnet
       logo:
         src: ./assets/logos/anthropic-640x640.png
       value: anthropic.claude-3-5-sonnet-20240620-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-254CACF4
+        tokensPerMinuteQuotaCode: L-A50569E5
 
     - label: Claude 3 Sonnet
       logo:
         src: ./assets/logos/anthropic-640x640.png
       value: anthropic.claude-3-sonnet-20240229-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-F406804E
+        tokensPerMinuteQuotaCode: L-4C35BB2A
 
     - label: Claude 3 Haiku
       logo:
         src: ./assets/logos/anthropic-640x640.png
       value: anthropic.claude-3-haiku-20240307-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-2DC80978
+        tokensPerMinuteQuotaCode: L-8CE99163
 
     - label: Claude 3 Opus
       logo:
         src: ./assets/logos/anthropic-640x640.png
       value: us.anthropic.claude-3-opus-20240229-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-EB15245D
+        tokensPerMinuteQuotaCode: L-6C86825E
 
     - label: Claude Instant
       logo:
         src: ./assets/logos/anthropic-640x640.png
       value: anthropic.claude-instant-v1
+      metadata:
+        requestsPerMinuteQuotaCode: L-8CEDED9C
+        tokensPerMinuteQuotaCode: L-F7007F39
 
     - label: Claude
       logo:
@@ -241,11 +286,17 @@ config:
       logo:
         src: ./assets/logos/cohere.png
       value: cohere.command-r-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-A49CA90F
+        tokensPerMinuteQuotaCode: L-17F95AA4
 
     - label: Cohere - Command R+
       logo:
         src: ./assets/logos/cohere.png
       value: cohere.command-r-plus-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-ADB4B3D7
+        tokensPerMinuteQuotaCode: L-FEE1DCB6
 
     - label: Command Light
       logo:
@@ -262,6 +313,9 @@ config:
       logo:
         src: ./assets/logos/meta.png
       value: us.meta.llama3-3-70b-instruct-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-DEDE703C
+        tokensPerMinuteQuotaCode: L-0E7AA8B7
 
     - label: Llama 3.2 90B Vision Instruct
       logo:
@@ -277,54 +331,79 @@ config:
       logo:
         src: ./assets/logos/meta.png
       value: us.meta.llama3-2-3b-instruct-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-6B0A9FAD
+        tokensPerMinuteQuotaCode: L-0B2687F4
 
     - label: Llama 3.2 1B Instruct
       logo:
         src: ./assets/logos/meta.png
       value: us.meta.llama3-2-1b-instruct-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-A31D2B40
+        tokensPerMinuteQuotaCode: L-BD9FDA6F
 
     - label: Llama 3.1 70B Instruct
       logo:
         src: ./assets/logos/meta.png
       value: us.meta.llama3-1-70b-instruct-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-29644EB3
+        tokensPerMinuteQuotaCode: L-92E68994
 
     - label: Llama 3.1 8B Instruct
       logo:
         src: ./assets/logos/meta.png
       value: us.meta.llama3-1-8b-instruct-v1:0
-
-    - label: Llama 3.1 8B Instruct
-      logo:
-        src: ./assets/logos/meta.png
-      value: us.meta.llama3-1-8b-instruct-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-396C5302
+        tokensPerMinuteQuotaCode: L-9782749C
 
     - label: Llama3 - 8b Instruct v1
       logo:
         src: ./assets/logos/meta.png
       value: meta.llama3-8b-instruct-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-320BEFEB
+        tokensPerMinuteQuotaCode: L-03A9B835
 
     - label: Llama3 - 70b Instruct v1
       logo:
         src: ./assets/logos/meta.png
       value: meta.llama3-70b-instruct-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-46D383AF
+        tokensPerMinuteQuotaCode: L-609E24B0
 
     # Mistral
     - label: Mistral - 7b Instruct v0
       logo:
         src: ./assets/logos/mistral.png
       value: mistral.mistral-7b-instruct-v0:2
+      metadata:
+        requestsPerMinuteQuotaCode: L-D9A35062
+        tokensPerMinuteQuotaCode: L-02D831F1
 
     - label: Mistral - 8x7b Instruct v0
       logo:
         src: ./assets/logos/mistral.png
       value: mistral.mixtral-8x7b-instruct-v0:1
+      metadata:
+        requestsPerMinuteQuotaCode: L-FD938632
+        tokensPerMinuteQuotaCode: L-490F4D1F
 
     - label: Mistral - Large 2402 v1
       logo:
         src: ./assets/logos/mistral.png
       value: mistral.mistral-large-2402-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-3AF844DB
+        tokensPerMinuteQuotaCode: L-01447289
 
     - label: Mistral - Small 2402 v1
       logo:
         src: ./assets/logos/mistral.png
       value: mistral.mistral-small-2402-v1:0
+      metadata:
+        requestsPerMinuteQuotaCode: L-1CBB0490
+        tokensPerMinuteQuotaCode: L-82C15FA8

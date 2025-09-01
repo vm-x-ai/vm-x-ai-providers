@@ -12,6 +12,7 @@ import type {
   AIConnection,
   TokenMessage,
   AIProviderConfig,
+  AIProviderRateLimit,
 } from '@vm-x-ai/completion-provider';
 import { Span } from 'nestjs-otel';
 import { APIError, OpenAI, RateLimitError } from 'openai';
@@ -37,6 +38,44 @@ export type OpenAIConnectionConfig = {
 export class OpenAILLMProvider extends BaseCompletionProvider<OpenAI> implements ICompletionProvider {
   constructor(logger: Logger, provider: AIProviderConfig) {
     super(logger, provider);
+  }
+
+  @Span('OpenAI.getRateLimit')
+  public async getRateLimit(
+    connection: AIConnection<OpenAIConnectionConfig>,
+    modelConfig: ResourceModelConfig,
+  ): Promise<AIProviderRateLimit[] | null> {
+    const client = await this.createClient(connection);
+    const response = await client.chat.completions
+      .create({
+        stream: false,
+        messages: [
+          {
+            role: 'user',
+            content: 'ping, respond with pong',
+          },
+        ],
+        model: modelConfig.model,
+      })
+      .withResponse();
+
+    // Ref: https://platform.openai.com/docs/guides/rate-limits#rate-limits-in-headers
+    const requestsLimit = response.response.headers.get('x-ratelimit-limit-requests');
+    const tokensLimit = response.response.headers.get('x-ratelimit-limit-tokens');
+
+    if (!requestsLimit || !tokensLimit) {
+      this.logger.warn('The rate limit headers are not present in the response');
+      return null;
+    }
+
+    return [
+      {
+        period: 'minute',
+        model: modelConfig.model,
+        requests: parseInt(requestsLimit),
+        tokens: parseInt(tokensLimit),
+      },
+    ];
   }
 
   @Span('OpenAI.getMaxReplyTokens')
@@ -140,7 +179,7 @@ export class OpenAILLMProvider extends BaseCompletionProvider<OpenAI> implements
       id: message.id,
       role: message.choices[0].message.role,
       toolCalls: message.choices[0].message.tool_calls || [],
-      message: request.stream ? '' : message.choices[0].message.content ?? '',
+      message: request.stream ? '' : (message.choices[0].message.content ?? ''),
       responseTimestamp: responseTimestamp.getTime(),
       usage: message.usage
         ? {
@@ -277,6 +316,7 @@ export class OpenAILLMProvider extends BaseCompletionProvider<OpenAI> implements
       finish_reason: null as never,
       index: 0,
       message: {
+        refusal: null,
         content: null,
         role: 'assistant',
       },

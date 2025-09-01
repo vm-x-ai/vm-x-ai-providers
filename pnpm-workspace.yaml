@@ -1,0 +1,10 @@
+onlyBuiltDependencies:
+  - '@nestjs/core'
+  - '@swc/core'
+  - esbuild
+  - nx
+  - protobufjs
+
+packages:
+  - packages/*
+  - packages/community/*

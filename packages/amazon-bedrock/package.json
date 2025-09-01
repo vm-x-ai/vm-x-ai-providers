@@ -1,17 +1,18 @@
 {
   "name": "@vm-x-ai/providers-amazon-bedrock",
-  "version": "2.0.2",
+  "version": "2.1.0-beta.1",
   "dependencies": {
     "@nestjs/common": "^10.3.9",
     "nestjs-otel": "^6.1.1",
     "rxjs": "^7.8.1",
-    "@vm-x-ai/completion-provider": "0.13.0",
+    "@vm-x-ai/completion-provider": "0.18.0",
     "esbuild-plugin-tsc": "^0.4.0",
     "uuid": "^9.0.1",
     "@aws-sdk/client-bedrock-runtime": "3.721.0",
     "@aws-sdk/credential-providers": "3.721.0",
     "@grpc/grpc-js": "^1.10.8",
-    "@smithy/types": "3.0.0"
+    "@smithy/types": "3.0.0",
+    "@aws-sdk/client-service-quotas": "3.721.0"
   },
   "type": "commonjs",
   "main": "./src/index.js",

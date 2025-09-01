@@ -13,6 +13,7 @@ import type {
   AIConnection,
   TokenMessage,
   AIProviderConfig,
+  AIProviderRateLimit,
 } from '@vm-x-ai/completion-provider';
 import { Span } from 'nestjs-otel';
 import { APIError, OpenAI, RateLimitError } from 'openai';
@@ -44,6 +45,12 @@ type GeminiAdapterUsage = {
 export class GeminiLLMProvider extends BaseCompletionProvider<OpenAI> implements ICompletionProvider {
   constructor(logger: Logger, provider: AIProviderConfig) {
     super(logger, provider);
+  }
+
+  @Span('Gemini.getRateLimit')
+  public async getRateLimit(): Promise<AIProviderRateLimit[] | null> {
+    this.logger.log('Can not get rate limit, not supported');
+    return null;
   }
 
   @Span('Gemini.getMaxReplyTokens')
@@ -147,7 +154,7 @@ export class GeminiLLMProvider extends BaseCompletionProvider<OpenAI> implements
       id: message.id,
       role: message.choices[0].message.role,
       toolCalls: message.choices[0].message.tool_calls || [],
-      message: request.stream ? '' : message.choices[0].message.content ?? '',
+      message: request.stream ? '' : (message.choices[0].message.content ?? ''),
       responseTimestamp: responseTimestamp.getTime(),
       usage: message.usage
         ? {
@@ -287,6 +294,7 @@ export class GeminiLLMProvider extends BaseCompletionProvider<OpenAI> implements
       finish_reason: null as never,
       index: 0,
       message: {
+        refusal: null,
         content: null,
         role: 'assistant',
       },

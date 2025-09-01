@@ -23,6 +23,7 @@ import type {
   AIConnection,
   TokenMessage,
   AIProviderConfig,
+  AIProviderRateLimit,
 } from '@vm-x-ai/completion-provider';
 import { BaseCompletionProvider, TokenCounter } from '@vm-x-ai/completion-provider';
 import { Span } from 'nestjs-otel';
@@ -44,6 +45,46 @@ export class AnthropicLLMProvider extends BaseCompletionProvider<Anthropic> impl
     this.modelsMaxTokensMap = provider.config.models.reduce((acc, item) => {
       return { ...acc, [item.value]: item?.options?.maxTokens };
     }, {});
+  }
+
+  @Span('Anthropic.getRateLimit')
+  public async getRateLimit(
+    connection: AIConnection<AnthropicConnectionConfig>,
+    modelConfig: ResourceModelConfig,
+  ): Promise<AIProviderRateLimit[] | null> {
+    const client = await this.createClient(connection);
+    const response = await client.messages
+      .create({
+        stream: false,
+        max_tokens: 100,
+        model: modelConfig.model,
+        system: 'Respond with pong',
+        messages: [
+          {
+            role: 'user',
+            content: 'ping',
+          },
+        ],
+      })
+      .withResponse();
+
+    // Ref: https://docs.anthropic.com/en/api/rate-limits#response-headers
+    const requestsLimit = response.response.headers.get('anthropic-ratelimit-requests-limit');
+    const tokensLimit = response.response.headers.get('anthropic-ratelimit-tokens-limit');
+
+    if (!requestsLimit || !tokensLimit) {
+      this.logger.warn('The rate limit headers are not present in the response');
+      return null;
+    }
+
+    return [
+      {
+        period: 'minute',
+        model: modelConfig.model,
+        requests: parseInt(requestsLimit),
+        tokens: parseInt(tokensLimit),
+      },
+    ];
   }
 
   @Span('Anthropic.getMaxReplyTokens')
@@ -157,7 +198,7 @@ export class AnthropicLLMProvider extends BaseCompletionProvider<Anthropic> impl
       id: message.id,
       role: message.role,
       toolCalls: [],
-      message: request.stream ? '' : message?.content.find((block) => block.type === 'text')?.text ?? '',
+      message: request.stream ? '' : (message?.content.find((block) => block.type === 'text')?.text ?? ''),
       responseTimestamp: responseTimestamp.getTime(),
       usage: message.usage
         ? {

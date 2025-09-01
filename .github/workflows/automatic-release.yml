@@ -15,6 +15,7 @@ jobs:
     secrets: inherit
     with:
       publish: false
+      pnpm-version: 10
 
   dispatch:
     needs: [release]

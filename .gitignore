@@ -54,3 +54,5 @@ cdk.out
 .env.local
 
 **/vite.config.{js,ts,mjs,mts,cjs,cts}.timestamp*
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
