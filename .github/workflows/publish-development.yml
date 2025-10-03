@@ -1,8 +1,8 @@
 name: Publish Deployment
 
 on:
-  repository_dispatch:
-    types: [release-completed]
+  # repository_dispatch:
+  #   types: [release-completed]
   workflow_dispatch:
     branches:
       - main
